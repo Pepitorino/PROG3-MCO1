@@ -6,12 +6,14 @@ import java.util.InputMismatchException;
 public class Factory {
     private NewRegVendMachine vm;
 
+    //VM creation
     public void inputItem(NewRegVendMachine vm, int itemNum) {
         Scanner input = new Scanner(System.in);
         for (int i = 0 ; i<itemNum ; i++) {
             String tempName = "\n";
             double tempPrice = 0;
             double tempCal = 0;
+            int stock = 0;
             System.out.printf("\nItem #%d\n", i+1);
 
             do {
@@ -47,9 +49,23 @@ public class Factory {
                 if (tempCal<0) System.out.printf("\nCALORIES CANNOT BE NEGATIVE\n");
             } while (tempCal<0);
 
+            do {
+                try {
+                    System.out.printf("Enter item stock: ");
+                    stock = input.nextInt();       
+                }
+                catch (InputMismatchException e) {
+                    System.out.printf("\nINVALID INPUT\n");
+                    input.nextLine();
+                }
+                if (stock<0) System.out.printf("\nSTOCK CANNOT BE NEGATIVE\n");
+                else if (stock>16) System.out.printf("\nSTOCK CANNOT BE GREATER THAN 16\n");
+            } while (stock<0);
+
             input.nextLine();
 
-            vm.addNewItem(new Item(tempName, tempPrice, tempCal));
+            vm.addNewItemStack(new Item(tempName, tempPrice, tempCal));
+            vm.restockItem(i, stock);
         }
     }
 
@@ -77,7 +93,33 @@ public class Factory {
         this.vm = newVM;
     }
 
+    //VM testing
     public void testVM() {
-
+        Scanner input = new Scanner(System.in);
+        int x = -1;
+        do {
+            System.out.printf("\nVENDING MACHINE TEST MENU\n");
+            System.out.printf("1. Back\n2. Vending Features\n3. Maintenance Feature");
+            try {
+                System.out.printf("\nINPUT: ");
+                x = input.nextInt();       
+            }
+            catch (InputMismatchException e) {
+                System.out.printf("\nINVALID INPUT\n");
+                input.nextLine();
+            }
+            switch (x) {
+                case 1: 
+                    break;
+                case 2:
+                    this.vm.featuresVending();
+                    break;
+                case 3:
+                    this.vm.featuresMaintenance();
+                    break;
+                default:
+                    System.out.printf("\nINVALID INPUT\n");
+            }
+        } while (x!=1);
     }
 }
