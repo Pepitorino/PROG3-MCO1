@@ -25,3 +25,5 @@ replay_pid*
 
 # Other files
 Test.java
+*.txt
+*.xml
