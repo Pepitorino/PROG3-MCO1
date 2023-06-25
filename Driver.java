@@ -10,7 +10,7 @@ public class Driver {
         int i = -1;
         do {
             System.out.printf("WELCOME\n");
-            System.out.printf("Menu:\n1. Create a Vending Machine\n2. Test a Vending Machine\n3. Exit\nINPUT: ");
+            System.out.printf("Menu:\n1. Exit\n2. Create Vending Machine\n3. Test Vending Machine\nINPUT: ");
             try {
                 i = input.nextInt();
             }
@@ -22,16 +22,16 @@ public class Driver {
             switch (i)
             {
                 case 1:
-                    factory.createVM();
                     break;
                 case 2:
-                    factory.testVM();
+                    factory.createVM();
                     break;
                 case 3:
+                    factory.testVM();
                     break;
                 default:
                     System.out.printf("\nINVALID OPTION\n");
             }
-        } while (i!=3);
+        } while (i!=1);
     }
 }
