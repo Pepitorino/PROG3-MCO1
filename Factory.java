@@ -13,12 +13,13 @@ public class Factory {
             double tempPrice = 0;
             double tempCal = 0;
             System.out.printf("\nItem #%d\n", i+1);
-            System.out.printf("Enter item name: ");
 
             do {
+                System.out.printf("Enter item name: ");
                 tempName = input.nextLine();
-                if (tempName.equals("\n")) System.out.printf("\nINVALID INPUT\n");
-            } while (tempName.equals("\n"));
+                if (tempName.equals("\n")) System.out.printf("\nNAME CANNOT BE EMPTY\n");
+                else if (vm.checkIfItemExists(tempName)) System.out.printf("\nITEM ALREADY EXISTS\n");
+            } while (tempName.equals("\n")||vm.checkIfItemExists(tempName));
 
             do {
                 try {
@@ -60,7 +61,7 @@ public class Factory {
 
         do {
             try {
-                System.out.printf("\nHow many items will this vending machine have? (Max 16)\nINPUT:");
+                System.out.printf("\nHow many items will this vending machine have? (Max 16)\nINPUT: ");
                 x = input.nextInt();       
             }
             catch (InputMismatchException e) {
