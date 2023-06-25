@@ -1,14 +1,16 @@
 import java.util.ArrayList;
 
 public class RegVendMachine {
-    ArrayList<Item> itemA = new ArrayList<>();
-    ArrayList<Item> itemB = new ArrayList<>();
-    ArrayList<Item> itemC = new ArrayList<>();
-    ArrayList<Item> itemD = new ArrayList<>();
-    ArrayList<Item> itemE = new ArrayList<>();
-    ArrayList<Item> itemF = new ArrayList<>();
-    ArrayList<Item> itemG = new ArrayList<>();
-    ArrayList<Item> itemH = new ArrayList<>();
+    String name;
+
+    ArrayList<Item> itemA = new ArrayList<Item>();
+    ArrayList<Item> itemB = new ArrayList<Item>();
+    ArrayList<Item> itemC = new ArrayList<Item>();
+    ArrayList<Item> itemD = new ArrayList<Item>();
+    ArrayList<Item> itemE = new ArrayList<Item>();
+    ArrayList<Item> itemF = new ArrayList<Item>();
+    ArrayList<Item> itemG = new ArrayList<Item>();
+    ArrayList<Item> itemH = new ArrayList<Item>();
     
     double intChange;
     double insertCash;
@@ -36,31 +38,29 @@ public class RegVendMachine {
     }
 
     public void checkPay(double price, double cash, boolean isPaid){
-
         if(cash >= price)
-	  isPaid = true;
+	    isPaid = true;
     }
 
     public double getChange(double intChange, double price, double cash,boolean isPaid){
 
 	 double realChange = 0;	
 
-         if (isPaid){
-	    if (cash >= price && cash > 0){
-		realChange = price - cash;
-		intChange = intChange - realChange;
+        if (isPaid) {
+	        if (cash >= price && cash > 0) {
+		    realChange = price - cash;
+		    intChange = intChange - realChange;
 	    }
 	 }
 
-	 return realChange;
+	return realChange;
     }
 
     public void collectChange(double intChange){
-	intChange = intChange - intChange;
+	    intChange = intChange - intChange;
     }
 
     public void addChange(double intChange){
-
- 	intChange = intChange + 
+     	intChange = intChange + 
     }
 }
