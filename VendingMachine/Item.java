@@ -6,9 +6,9 @@ public class Item {
     private double calories;
 
     public Item(String name, double price, double calories) {
-        this.name=name;
-        this.price=price;
-        this.calories=calories;
+        this.name = name;
+        this.price = price;
+        this.calories = calories;
     }
 
     public Item(Item item) {
