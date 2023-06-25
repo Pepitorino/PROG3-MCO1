@@ -5,7 +5,7 @@ public class Driver {
         Scanner input = new Scanner(System.in);
         Factory factory = new Factory();
 
-        int i=-1
+        int i = -1;
         do {
             System.out.printf("WELCOME\n");
             System.out.printf("Menu:\n1. Create a Vending Machine\n2. Test a Vending Machine\n3. Exit");
@@ -22,6 +22,6 @@ public class Driver {
                 default:
                     System.out.printf("\nINVALID OPTION\n");
             }
-        } while (i!=3)
+        } while (i!=3);
     }
 }
