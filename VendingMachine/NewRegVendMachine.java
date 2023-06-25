@@ -8,13 +8,12 @@ public class NewRegVendMachine {
         private Item itemType;
 
         public int getNumItems() {
-            return this.items.length(); 
+            return this.items.size(); 
         }
 
         public Item popItem() {
-            Item temp = this.items.get((this.items.length())-1);
-            this.items.remove(temp);
-            return temp;
+            this.items.remove(itemType);
+            return itemType;
         }
 
         public void pushItem() {
@@ -44,6 +43,14 @@ public class NewRegVendMachine {
 
     //Maintenance Features
     public void restockItem() {
+        
+    }
+
+    public void addNewItem() {
+
+    }
+
+    public void removeItem() {
         
     }
 }
