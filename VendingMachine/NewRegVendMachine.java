@@ -1,6 +1,8 @@
 package VendingMachine;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class NewRegVendMachine {
 
@@ -40,6 +42,8 @@ public class NewRegVendMachine {
     }
 
     ArrayList<ItemStack> itemTypes;
+    public static int MAX_ITEMTYPES = 16;
+    public static int MAX_ITEMS = 16;
 
     public NewRegVendMachine() {
         this.itemTypes = new ArrayList<ItemStack>(16);
@@ -89,25 +93,61 @@ public class NewRegVendMachine {
         } while (x!=1);
     }
 
-    private void restockItem(int index, int stock) {
-        for (int i=0 ; i<stock ; i++) {
-            itemTypes.get(index).pushItem();
+    public void stockItem(int index, int stock) {
+        for(int i=0 ; i < stock ; i++) {
+            this.itemTypes.get(index).pushItem();
         }
     }
 
-    private void destockItem(int index, int num) {
+    private void restockItem() {
+        Scanner input = new Scanner(System.in);
+        int index = 0;
+        int stock = 0;
+
+        System.out.printf("\nWhich item would you like to restock: ");
+        this.displayItems();
+        do {
+            System.out.printf("\nITEM: ");
+            try {
+                System.out.printf("\nINPUT: ");
+                index = input.nextInt();       
+            }
+            catch (InputMismatchException e) {
+                System.out.printf("\nINVALID INPUT\n");
+                input.nextLine();
+            }
+        } while (index<1||index>this.itemTypes.size());
+
+        System.out.printf("\nHow much of this item would you like to restock? ");
+        do {
+            try {
+                System.out.printf("\nINPUT: ");
+                stock = input.nextInt();       
+            }
+            catch (InputMismatchException e) {
+                System.out.printf("\nINVALID INPUT\n");
+                input.nextLine();
+            }
+        } while (stock<0||stock>MAX_ITEMS-(this.itemTypes.get(index).items.size()));
+
         for (int i=0 ; i<stock ; i++) {
-            itemTypes.get(index).popItem();
+            this.itemTypes.get(index).pushItem();
         }
     }
 
-    private void addNewItemStack(Item item) {
+    private void destockItem() {
+    }
+
+    public void addNewItemStack(Item item) {
         if (this.itemTypes.size()<16) this.itemTypes.add(new ItemStack(item));
         else System.out.printf("ALL SLOTS BEING USED");
     }
 
-    private void removeItemStack(int index) {
-        this.itemTypes.remove(index);
+    private void addNewItemStack() {
+
+    }
+
+    private void removeItemStack() {
     }
 
     private void setItemPrice() {
@@ -124,17 +164,17 @@ public class NewRegVendMachine {
         return items;
     }
 
-    public ArrayList<int> getItemStock() {
-        ArrayList<int> items = new ArrayList<int>();
+    public ArrayList<Integer> getItemStock() {
+        ArrayList<Integer> items = new ArrayList<Integer>();
         for(int i=0 ; i < this.itemTypes.size() ; i++) {
             ItemStack tempItem = this.itemTypes.get(i);
-            items.add(tempItem.getItemStock());
+            items.add(tempItem.items.size());
         }
         return items;
     }
 
-    public ArrayList<int> getItemCalories() {
-        ArrayList<int> items = new ArrayList<int>();
+    public ArrayList<Double> getItemCalories() {
+        ArrayList<Double> items = new ArrayList<Double>();
         for(int i=0 ; i < this.itemTypes.size() ; i++) {
             ItemStack tempItem = this.itemTypes.get(i);
             items.add(tempItem.getItemCalories());
@@ -142,8 +182,8 @@ public class NewRegVendMachine {
         return items;
     }
 
-    public ArrayList<double> getItemPrice() {
-        ArrayList<double> items = new ArrayList<double>();
+    public ArrayList<Double> getItemPrice() {
+        ArrayList<Double> items = new ArrayList<Double>();
         for(int i=0 ; i < this.itemTypes.size() ; i++) {
             ItemStack tempItem = this.itemTypes.get(i);
             items.add(tempItem.getItemPrice());
@@ -162,13 +202,13 @@ public class NewRegVendMachine {
 
     public void displayItems() {
         ArrayList<String> itemNames = this.getItemNames();
-        ArrayList<int> itemStock = this.getItemStock();
-        ArrayList<int> itemCalories = this.getItemCalories();
-        ArrayList<double> itemPrice = this.getItemPrice();
+        ArrayList<Integer> itemStock = this.getItemStock();
+        ArrayList<Double> itemCalories = this.getItemCalories();
+        ArrayList<Double> itemPrice = this.getItemPrice();
         
         System.out.printf("\nNAME\tSTOCK\tCAL\tPRICE");
         for (int i=0 ; i < this.itemTypes.size() ; i++) {
-            System.out.printf("\n%s\t%d\t%d\t%s", itemNames.get(i), itemStock.get(i), itemCalories.get(i), itemPrice.get(i));
+            System.out.printf("\n%s\t%d\t%f\t%f", itemNames.get(i), itemStock.get(i), itemCalories.get(i), itemPrice.get(i));
         }
     }
 }
