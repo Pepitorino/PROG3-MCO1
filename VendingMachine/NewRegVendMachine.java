@@ -7,6 +7,10 @@ public class NewRegVendMachine {
         private ArrayList<Item> items;
         private Item itemType;
 
+        public itemStack(Item item) {
+            this.itemType = item;
+        }
+
         public int getNumItems() {
             return this.items.size(); 
         }
@@ -36,7 +40,7 @@ public class NewRegVendMachine {
     ArrayList<itemStack> itemTypes;
 
     public NewRegVendMachine() {
-
+        this.itemTypes = new ArrayList<itemStack>(16);
     }
 
     //Testing Features
@@ -46,12 +50,21 @@ public class NewRegVendMachine {
         
     }
 
-    public void addNewItem() {
-
+    public void addNewItem(Item item) {
+        this.itemTypes.add(new itemStack(item));
     }
 
-    public void removeItem() {
-        
+    public void removeItem(Item item) {
+        this.itemTypes.remove(item);
+    }
+
+    //Getters
+    public ArrayList<String> getItems() {
+        ArrayList<String> items;
+        for(int i = 0 ; i<this.itemTypes.size() ; i++) {
+            items.add(this.itemTypes.getItemName());
+        }
+        return items;
     }
 }
 
