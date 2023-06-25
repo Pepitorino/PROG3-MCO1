@@ -3,11 +3,11 @@ package VendingMachine;
 import java.util.ArrayList;
 
 public class NewRegVendMachine {
-    private class itemStack {
+    private class ItemStack {
         private ArrayList<Item> items;
         private Item itemType;
 
-        public itemStack(Item item) {
+        public ItemStack(Item item) {
             this.itemType = item;
         }
 
@@ -37,10 +37,10 @@ public class NewRegVendMachine {
         }
     }
 
-    ArrayList<itemStack> itemTypes;
+    ArrayList<ItemStack> itemTypes;
 
     public NewRegVendMachine() {
-        this.itemTypes = new ArrayList<itemStack>(16);
+        this.itemTypes = new ArrayList<ItemStack>(16);
     }
 
     //Testing Features
@@ -51,7 +51,7 @@ public class NewRegVendMachine {
     }
 
     public void addNewItem(Item item) {
-        this.itemTypes.add(new itemStack(item));
+        this.itemTypes.add(new ItemStack(item));
     }
 
     public void removeItem(Item item) {
@@ -59,10 +59,11 @@ public class NewRegVendMachine {
     }
 
     //Getters
-    public ArrayList<String> getItems() {
+    public ArrayList<String> getItemNames() {
         ArrayList<String> items;
         for(int i = 0 ; i<this.itemTypes.size() ; i++) {
-            items.add(this.itemTypes.getItemName());
+            ItemStack tempItem = this.itemTypes.get(i);
+            items.add(tempItem.getItemName());
         }
         return items;
     }
