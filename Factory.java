@@ -65,7 +65,7 @@ public class Factory {
             input.nextLine();
 
             vm.addNewItemStack(new Item(tempName, tempPrice, tempCal));
-            vm.restockItem(i, stock);
+            vm.stockItem(i, stock);
         }
     }
 
