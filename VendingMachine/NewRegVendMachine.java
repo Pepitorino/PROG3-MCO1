@@ -3,6 +3,7 @@ package VendingMachine;
 import java.util.ArrayList;
 
 public class NewRegVendMachine {
+
     private class ItemStack {
         private ArrayList<Item> items;
         private Item itemType;
@@ -47,27 +48,40 @@ public class NewRegVendMachine {
     //Testing Features
 
     //Maintenance Features
-    public void restockItem() {
+    public void restockItem(int index) {
         
     }
 
-    public void addNewItem(Item item) {
+    public void depleteItem(int index) {
+
+    }
+
+    public void addNewItemStack(Item item) {
         if (this.itemTypes.size()<16) this.itemTypes.add(new ItemStack(item));
         else System.out.printf("ALL SLOTS BEING USED");
     }
 
-    public void removeItem(Item item) {
-        this.itemTypes.remove(item);
+    public void removeItemStack(int index) {
+        this.itemTypes.remove(index);
     }
 
     //Getters
     public ArrayList<String> getItemNames() {
         ArrayList<String> items = new ArrayList<String>();
-        for(int i = 0 ; i<this.itemTypes.size() ; i++) {
+        for(int i=0 ; i<this.itemTypes.size() ; i++) {
             ItemStack tempItem = this.itemTypes.get(i);
             items.add(tempItem.getItemName());
         }
         return items;
+    }
+
+    //Helper functions
+    public boolean checkIfItemExists(String string) {
+        for (int i=0 ; i<this.itemTypes.size() ; i++) {
+            ItemStack tempItem = this.itemTypes.get(i);
+            if (string.equals(tempItem.getItemName())) return true;
+        }
+        return false;
     }
 }
 
