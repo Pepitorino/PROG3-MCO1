@@ -1,4 +1,5 @@
 import VendingMachine.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -6,7 +7,7 @@ public class Factory {
     private NewRegVendMachine vm;
 
     public void inputItem(NewRegVendMachine vm, int itemNum) {
-        Scanner input = new Scanner();
+        Scanner input = new Scanner(System.in);
         for (int i = 0 ; i<itemNum ; i++) {
             String tempName = "\n";
             double tempPrice = 0;
@@ -19,11 +20,9 @@ public class Factory {
                 if (tempName.equals("\n")) System.out.printf("\nINVALID INPUT\n");
             } while (tempName.equals("\n"));
 
-            input.nextLine();
-
             do {
                 try {
-                    System.out.printf("Enter item price: ");
+                    System.out.printf("Enter item price (php): ");
                     tempPrice = input.nextDouble();       
                 }
                 catch (InputMismatchException e) {
@@ -48,6 +47,8 @@ public class Factory {
             } while (tempCal<0);
 
             input.nextLine();
+
+            vm.addNewItem(new Item(tempName, tempPrice, tempCal));
         }
     }
 
@@ -73,7 +74,6 @@ public class Factory {
         inputItem(newVM, x);
 
         this.vm = newVM;
-
     }
 
     public void testVM() {

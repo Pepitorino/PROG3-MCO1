@@ -8,6 +8,7 @@ public class NewRegVendMachine {
         private Item itemType;
 
         public ItemStack(Item item) {
+            this.items = new ArrayList<Item>();
             this.itemType = item;
         }
 
@@ -51,7 +52,8 @@ public class NewRegVendMachine {
     }
 
     public void addNewItem(Item item) {
-        this.itemTypes.add(new ItemStack(item));
+        if (this.itemTypes.size()<16) this.itemTypes.add(new ItemStack(item));
+        else System.out.printf("ALL SLOTS BEING USED");
     }
 
     public void removeItem(Item item) {
@@ -60,7 +62,7 @@ public class NewRegVendMachine {
 
     //Getters
     public ArrayList<String> getItemNames() {
-        ArrayList<String> items;
+        ArrayList<String> items = new ArrayList<String>();
         for(int i = 0 ; i<this.itemTypes.size() ; i++) {
             ItemStack tempItem = this.itemTypes.get(i);
             items.add(tempItem.getItemName());
