@@ -79,10 +79,12 @@ public class NewRegVendMachine {
                     this.restockItem();
                     break;
                 case 4:
-                    this.addNewItemStack();
+                    if (this.itemTypes.size()<this.MAX_ITEMTYPES) this.addNewItemStack();
+                    else System.out.printf("MAX ITEMS REACHED");
                     break;
                 case 5:
-                    this.removeItemStack();
+                    if (this.itemTypes.size()>0) this.removeItemStack();
+                    else System.out.printf("VENDING MACHINE EMPTY");
                     break;
                 case 6:
                     this.setItemPrice();
@@ -199,6 +201,21 @@ public class NewRegVendMachine {
     }
 
     private void removeItemStack() {
+        Scanner input = new Scanner(System.in);
+        int x = 0;
+        do {
+            this.displayItems();
+            System.out.printf("\nWhich item would you like to remove? ");
+            try {
+                System.out.printf("\nINPUT: ");
+                x = input.nextInt();       
+            }
+            catch (InputMismatchException e) {
+                System.out.printf("\nINVALID INPUT\n");
+                input.nextLine();
+            }
+            if (x<0||x>this.itemTypes.size()) System.out.printf("\nINVALID INPUT\n");
+        } while (x<0||x>this.itemTypes.size());
     }
 
     private void setItemPrice() {
