@@ -128,10 +128,11 @@ public class NewRegVendMachine {
                 System.out.printf("\nINVALID INPUT\n");
                 input.nextLine();
             }
-        } while (stock<0||stock>MAX_ITEMS-(this.itemTypes.get(index).items.size()));
+            if (stock<0||stock>MAX_ITEMS-(this.itemTypes.get(index-1).items.size())) System.out.printf("\nINVALID INPUT\n");
+        } while (stock<0||stock>MAX_ITEMS-(this.itemTypes.get(index-1).items.size()));
 
         for (int i=0 ; i<stock ; i++) {
-            this.itemTypes.get(index).pushItem();
+            this.itemTypes.get((index-1)).pushItem();
         }
     }
 
@@ -222,7 +223,35 @@ public class NewRegVendMachine {
     }
 
     private void setItemPrice() {
+        Scanner input = new Scanner(System.in);
+        int x = 0;
+        double price = 0;
 
+        do {
+            this.displayItems();
+            System.out.printf("\nWhich item would you like to change price? ");
+            try {
+                System.out.printf("\nINPUT: ");
+                x = input.nextInt();       
+            }
+            catch (InputMismatchException e) {
+                System.out.printf("\nINVALID INPUT\n");
+                input.nextLine();
+            }
+            if (x<0||x>this.itemTypes.size()) System.out.printf("\nINVALID INPUT\n");
+        } while (x<0||x>this.itemTypes.size());
+
+        System.out.printf("\nENTER NEW PRICE: ");
+        try {
+            System.out.printf("\nINPUT: ");
+            price = input.nextDouble();       
+        }
+        catch (InputMismatchException e) {
+            System.out.printf("\nINVALID INPUT\n");
+            input.nextLine();
+        }
+
+        this.itemTypes.get(x-1).itemType.setPrice(price);
     }
 
     //Getters
@@ -277,9 +306,9 @@ public class NewRegVendMachine {
         ArrayList<Double> itemCalories = this.getItemCalories();
         ArrayList<Double> itemPrice = this.getItemPrice();
         
-        System.out.printf("\nNAME\tSTOCK\tCAL\tPRICE");
+        System.out.printf("\nNAME--STOCK--CAL--PRICE");
         for (int i=0 ; i < this.itemTypes.size() ; i++) {
-            System.out.printf("\n%d. %s\t%d\t%.2f\t%.2f", i+1, itemNames.get(i), itemStock.get(i), itemCalories.get(i), itemPrice.get(i));
+            System.out.printf("\n%d. %s--%d--%.2f--%.2f", i+1, itemNames.get(i), itemStock.get(i), itemCalories.get(i), itemPrice.get(i));
         }
         System.out.printf("\n");
     }
