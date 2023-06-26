@@ -7,6 +7,8 @@ public class Driver {
         Scanner input = new Scanner(System.in);
         Factory factory = new Factory();
 
+        boolean vmExists = false;
+
         int i = -1;
         do {
             System.out.printf("WELCOME\n");
@@ -25,9 +27,11 @@ public class Driver {
                     break;
                 case 2:
                     factory.createVM();
+                    vmExists = true;
                     break;
                 case 3:
-                    factory.testVM();
+                    if (vmExists) factory.testVM();
+                    else System.out.printf("\nVENDING MACHINE DOES NOT EXIST\n");
                     break;
                 default:
                     System.out.printf("\nINVALID OPTION\n");
