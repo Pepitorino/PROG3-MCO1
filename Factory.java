@@ -61,7 +61,7 @@ public class Factory {
                     input.nextLine();
                 }
                 if (stock<0) System.out.printf("\nSTOCK CANNOT BE NEGATIVE\n");
-                else if (stock>16) System.out.printf("\nSTOCK CANNOT BE GREATER THAN 16\n");
+                else if (stock>this.vm.MAX_ITEMS) System.out.printf("\nSTOCK CANNOT BE GREATER THAN 16\n");
             } while (stock<0);
 
             input.nextLine();
@@ -86,7 +86,7 @@ public class Factory {
                 System.out.printf("\nINVALID INPUT\n");
                 input.nextLine();
             }
-        } while ( x<1 || x>16 );
+        } while ( x<1 || x>this.vm.MAX_ITEMTYPES );
 
         input.nextLine();
 
