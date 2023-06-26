@@ -203,6 +203,7 @@ public class NewRegVendMachine {
     private void removeItemStack() {
         Scanner input = new Scanner(System.in);
         int x = 0;
+
         do {
             this.displayItems();
             System.out.printf("\nWhich item would you like to remove? ");
@@ -216,6 +217,8 @@ public class NewRegVendMachine {
             }
             if (x<0||x>this.itemTypes.size()) System.out.printf("\nINVALID INPUT\n");
         } while (x<0||x>this.itemTypes.size());
+
+        this.itemTypes.remove(x-1);
     }
 
     private void setItemPrice() {
@@ -276,7 +279,7 @@ public class NewRegVendMachine {
         
         System.out.printf("\nNAME\tSTOCK\tCAL\tPRICE");
         for (int i=0 ; i < this.itemTypes.size() ; i++) {
-            System.out.printf("\n%s\t%d\t%.2f\t%.2f", itemNames.get(i), itemStock.get(i), itemCalories.get(i), itemPrice.get(i));
+            System.out.printf("\n%d. %s\t%d\t%.2f\t%.2f", i+1, itemNames.get(i), itemStock.get(i), itemCalories.get(i), itemPrice.get(i));
         }
         System.out.printf("\n");
     }
