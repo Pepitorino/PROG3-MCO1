@@ -60,7 +60,7 @@ public class NewRegVendMachine {
         int x = -1;
         do {
             System.out.printf("\nVENDING MACHINE MAINTENANCE MENU\n");
-            System.out.printf("1. Back\n2. Restock Items\n3. Destock Items\n4. Add New Item\n5. Remove Item\n6. Set Item Price");
+            System.out.printf("1. Back\n2. Display Items\n3. Restock Items\n4. Add New Item\n5. Remove Item\n6. Set Item Price");
             try {
                 System.out.printf("\nINPUT: ");
                 x = input.nextInt();       
@@ -73,10 +73,10 @@ public class NewRegVendMachine {
                 case 1: 
                     break;
                 case 2:
-                    this.restockItem();
+                    this.displayItems();
                     break;
                 case 3:
-                    this.destockItem();
+                    this.restockItem();
                     break;
                 case 4:
                     this.addNewItemStack();
@@ -133,16 +133,69 @@ public class NewRegVendMachine {
         }
     }
 
-    private void destockItem() {
-    }
-
     public void addNewItemStack(Item item) {
-        if (this.itemTypes.size()<16) this.itemTypes.add(new ItemStack(item));
+        if (this.itemTypes.size()<MAX_ITEMTYPES) this.itemTypes.add(new ItemStack(item));
         else System.out.printf("ALL SLOTS BEING USED");
     }
 
     private void addNewItemStack() {
+        Scanner input = new Scanner(System.in);
+        String tempName = "\n";
+        double tempPrice = 0;
+        double tempCal = 0;
+        int stock = 0;
+        System.out.printf("\nItem #%d\n", this.itemTypes.size()+1);
 
+        do {
+            System.out.printf("Enter item name: ");
+            tempName = input.nextLine();
+            if (tempName.equals("\n")) System.out.printf("\nNAME CANNOT BE EMPTY\n");
+            else if (this.checkIfItemExists(tempName)) System.out.printf("\nITEM ALREADY EXISTS\n");
+        } while (tempName.equals("\n")||this.checkIfItemExists(tempName));
+
+        do {
+            try {
+                System.out.printf("Enter item price (php): ");
+                tempPrice = input.nextDouble();       
+            }
+            catch (InputMismatchException e) {
+                System.out.printf("\nINVALID INPUT\n");
+                input.nextLine();
+            }
+            if (tempPrice<0) System.out.printf("\nPRICE CANNOT BE NEGATIVE\n");
+        } while (tempPrice<0);
+        
+        input.nextLine();
+
+        do {
+            try {
+                System.out.printf("Enter item calories: ");
+                tempCal = input.nextDouble();       
+            }
+            catch (InputMismatchException e) {
+                System.out.printf("\nINVALID INPUT\n");
+                input.nextLine();
+            }
+            if (tempCal<0) System.out.printf("\nCALORIES CANNOT BE NEGATIVE\n");
+        } while (tempCal<0);
+
+        do {
+            try {
+                System.out.printf("Enter item stock: ");
+                stock = input.nextInt();       
+            }
+            catch (InputMismatchException e) {
+                System.out.printf("\nINVALID INPUT\n");
+                input.nextLine();
+            }
+            if (stock<0) System.out.printf("\nSTOCK CANNOT BE NEGATIVE\n");
+            else if (stock>MAX_ITEMS) System.out.printf("\nSTOCK CANNOT BE GREATER THAN 16\n");
+        } while (stock<0);
+
+        input.nextLine();
+
+        this.addNewItemStack(new Item(tempName, tempPrice, tempCal));
+        this.stockItem(this.itemTypes.size()-1, stock);
     }
 
     private void removeItemStack() {
@@ -208,6 +261,7 @@ public class NewRegVendMachine {
         for (int i=0 ; i < this.itemTypes.size() ; i++) {
             System.out.printf("\n%s\t%d\t%.2f\t%.2f", itemNames.get(i), itemStock.get(i), itemCalories.get(i), itemPrice.get(i));
         }
+        System.out.printf("\n");
     }
 }
 
