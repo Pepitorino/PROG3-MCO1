@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * A class representing a vending machine.
+ */
 public class NewRegVendMachine {
 
     private class ItemStack {
@@ -51,6 +54,29 @@ public class NewRegVendMachine {
 
     //Testing Features
     public void featuresVending() {
+        Scanner input = new Scanner(System.in);
+        int x = -1;
+        do {
+            System.out.printf("\nVENDING MACHINE MENU\n");
+            System.out.printf("1. Back\n2. Display Items\n3. ");
+            try {
+                System.out.printf("\nINPUT: ");
+                x = input.nextInt();       
+            }
+            catch (InputMismatchException e) {
+                System.out.printf("\nINVALID INPUT\n");
+                input.nextLine();
+            }
+            switch (x) {
+                case 1: 
+                    break;
+                case 2:
+                    this.displayItems();
+                    break;
+                default:
+                    System.out.printf("\nINVALID INPUT\n");
+            }
+        } while (x!=1);
 
     }
 
@@ -60,7 +86,7 @@ public class NewRegVendMachine {
         int x = -1;
         do {
             System.out.printf("\nVENDING MACHINE MAINTENANCE MENU\n");
-            System.out.printf("1. Back\n2. Display Items\n3. Restock Items\n4. Add New Item\n5. Remove Item\n6. Set Item Price");
+            System.out.printf("1. Back\n2. Display Items\n3. Restock Items\n4. Add New Item\n5. Remove Item\n6. Set Item Price\n7. Restock Money");
             try {
                 System.out.printf("\nINPUT: ");
                 x = input.nextInt();       
@@ -252,6 +278,10 @@ public class NewRegVendMachine {
         }
 
         this.itemTypes.get(x-1).itemType.setPrice(price);
+    }
+
+    private void restockMoney() {
+        
     }
 
     //Getters

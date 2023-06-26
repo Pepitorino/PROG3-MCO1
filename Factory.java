@@ -3,6 +3,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
+/**
+ * A class representing a factory
+ */
 public class Factory {
     private NewRegVendMachine vm;
 
