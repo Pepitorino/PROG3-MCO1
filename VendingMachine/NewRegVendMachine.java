@@ -104,12 +104,10 @@ public class NewRegVendMachine {
         int index = 0;
         int stock = 0;
 
-        System.out.printf("\nWhich item would you like to restock: ");
         this.displayItems();
         do {
-            System.out.printf("\nITEM: ");
             try {
-                System.out.printf("\nINPUT: ");
+                System.out.printf("\nWhich item would you like to restock: ");
                 index = input.nextInt();       
             }
             catch (InputMismatchException e) {
@@ -208,7 +206,7 @@ public class NewRegVendMachine {
         
         System.out.printf("\nNAME\tSTOCK\tCAL\tPRICE");
         for (int i=0 ; i < this.itemTypes.size() ; i++) {
-            System.out.printf("\n%s\t%d\t%f\t%f", itemNames.get(i), itemStock.get(i), itemCalories.get(i), itemPrice.get(i));
+            System.out.printf("\n%s\t%d\t%.2f\t%.2f", itemNames.get(i), itemStock.get(i), itemCalories.get(i), itemPrice.get(i));
         }
     }
 }

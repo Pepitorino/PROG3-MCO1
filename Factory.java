@@ -6,6 +6,8 @@ import java.util.InputMismatchException;
 public class Factory {
     private NewRegVendMachine vm;
 
+    public Factory() {this.vm = new NewRegVendMachine();}
+
     //VM creation
     public void inputItem(NewRegVendMachine vm, int itemNum) {
         Scanner input = new Scanner(System.in);
