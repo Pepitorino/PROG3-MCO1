@@ -1,6 +1,7 @@
 package VendingMachine;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -43,6 +44,8 @@ public class NewRegVendMachine {
             return this.itemType.getCalories();
         }
     }
+
+    private CashRegister cashHandler = new CashRegister();
 
     ArrayList<ItemStack> itemTypes;
     public static int MAX_ITEMTYPES = 16;
@@ -281,7 +284,21 @@ public class NewRegVendMachine {
     }
 
     private void restockMoney() {
+        Scanner input = new Scanner(System.in);
+        ArrayList<Integer> restock = new ArrayList<Integer>();
+        ArrayList<String> denominations = new ArrayList<String>();
+        List<String> stringsToAdd = Arrays.asList("Ones","Fives","Tens","Twenties","Fifties","One Hundreds","Two Hundreds","Five Hundreds","One Thousands");
+        denominations.addAll(stringsToAdd);
         
+        int quantity;
+        
+        for(int i=0 ; i < 9;i++) {
+            System.out.println("How many " + denominations.get(i) + " To add ");
+            quantity = input.nextInt();
+            restock.add(quantity);
+        }
+        
+        cashHandler.stockInternal(restock);
     }
 
     //Getters
