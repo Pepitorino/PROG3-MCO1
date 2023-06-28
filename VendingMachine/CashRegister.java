@@ -1,5 +1,3 @@
-package VendingMachine;
-
 import java.util.ArrayList;
 
 public class CashRegister{
@@ -61,64 +59,133 @@ public class CashRegister{
         
         ArrayList<Integer> changes = new ArrayList<>();
         
-        if(price > 0 && value > 0 && value >= price){
+        if(price>0 && value>0 && value>=price) {
             change = value - price;
             
-            while(change >= 1000){
-                change = change - 1000;
-                thousand++;
+            while(change>=1000) {
+                if(thousands==0) {
+                    break;
+                }
+                else{
+                    change = change - 1000;
+                    thousands--;
+                    thousand++;
+                }
             }
             changes.add(thousand);
             
-            while(change >= 500){
-                change = change - 500;
-                fiveH++;
+            while(change>=500) {
+                if(fiveHundreds==0) {
+                    break;
+                }
+                else{
+                    change = change - 500;
+                    fiveHundreds--;
+                    fiveH++;
+                }
             }
             changes.add(fiveH);
             
-            while(change >= 200){
-                change = change - 200;
-                twoH++;
+            while(change>=200) {
+                if(twoHundreds==0) {
+                    break;
+                }
+                else{
+                    change = change - 200;
+                    twoHundreds--;
+                    twoH++;
+                }
             }
             changes.add(twoH);
             
-            while(change >= 100){
-                change = change - 100;
-                hundred++;
+            while(change>=100) {
+                if(hundreds==0) {
+                    break;
+                }
+                else{
+                    change = change - 100;
+                    hundreds--;
+                    hundred++;
+                }
             }
             changes.add(hundred);
             
-            while(change >= 50){
-                change = change - 50;
-                fifty++;
+            while(change>=50) {
+                if(fifties==0) {
+                    break;
+                }
+                else{
+                    change = change - 50;
+                    fifties--;
+                    fifty++;
+                }
             }
             changes.add(fifty);
             
-            while(change >= 20){
-                change = change - 20;
-                twenty++;
+            while(change>=20) {
+                if(twenties==0) {
+                    break;
+                }
+                else{
+                    change = change - 20;
+                    twenties--;
+                    twenty++;
+                }
             }
             changes.add(twenty);
             
-            while(change >= 10){
-                change = change - 10;
-                ten++;
+            while(change>=10) {
+                if(tens==0) {
+                    break;
+                }
+                else{
+                    change = change - 10;
+                    tens--;
+                    ten++;
+                }
             }
             changes.add(ten);
             
-            while(change >= 5){
-                change = change - 5;
-                five++;
+            while(change>=5) {
+                if(fives==0){
+                    break;
+                }
+                else{
+                    change = change - 5;
+                    fives--;
+                    five++;
+                }
             }
             changes.add(five);
             
-            while(change >= 1){
-                change = change - 1;
-                one++;
+            while(change>=1) {
+                if(ones==0) {
+                    break;
+                }
+                else{
+                    change = change - 1;
+                    ones--;
+                    one++;
+                }
             }
             changes.add(one);
             
+            if(change != 0)
+                changes.add(-1);
         }
+        
         return changes;
+    }
+    
+    public void stockInternal(ArrayList<Integer> restock) {
+        int oldValue;
+        int newValue;
+        
+        for(int x = 0;x<9;x++) {
+            oldValue = internalBank.get(x);
+            newValue = oldValue + restock.get(x);
+            
+            internalBank.set(x,newValue);
+        }
     }
 }

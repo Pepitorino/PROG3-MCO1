@@ -56,6 +56,27 @@ public class NewRegVendMachine {
         this.itemTypes.add(new Item( 
         "Egg", 10, 100
         ));
+        this.itemTypes.add(new Item(
+        "Beef",150,500
+        ));
+        this.itemTypes.add(new Item(
+        "Carrot",20,25
+        ));
+        this.itemTypes.add(new Item(
+        "Rice",50,130
+        ));
+        this.itemTypes.add(new Item(
+        "Peas",75,80
+        ));
+        this.itemTypes.add(new Item(
+        "Spring Onions",30,25
+        ));
+        this.itemTypes.add(new Item(
+        "Sweet sauce",15,5
+        ));
+        this.itemTypes.add(new Item(
+        "Spicy sauce",15,10
+        ));
     }
 
     //Testing Features
@@ -367,4 +388,3 @@ public class NewRegVendMachine {
         System.out.printf("\n");
     }
 }
-
