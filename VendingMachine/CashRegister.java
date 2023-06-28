@@ -1,3 +1,5 @@
+package VendingMachine;
+
 import java.util.ArrayList;
 
 public class CashRegister{
