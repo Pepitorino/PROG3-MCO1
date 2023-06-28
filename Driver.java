@@ -28,6 +28,7 @@ public class Driver {
                 case 2:
                     factory.createVM();
                     vmExists = true;
+                    System.out.printf("\nVENDING MACHINE SUCCESSFULLY CREATED");
                     break;
                 case 3:
                     if (vmExists) factory.testVM();
