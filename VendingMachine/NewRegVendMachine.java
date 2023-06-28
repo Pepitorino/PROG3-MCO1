@@ -52,7 +52,7 @@ public class NewRegVendMachine {
     public static int MAX_ITEMS = 16;
 
     public NewRegVendMachine() {
-        this.itemTypes = new ArrayList<ItemStack>(16);
+        this.itemTypes = new ArrayList<ItemStack>(8);
         this.itemTypes.add(new Item( 
         "Egg", 10, 100
         ));
@@ -77,7 +77,6 @@ public class NewRegVendMachine {
         this.itemTypes.add(new Item(
         "Spicy sauce",15,10
         ));
->>>>>>> 5020876ef1167d9e5e4cabd31394ea37408ff408
     }
 
     //Testing Features
@@ -149,14 +148,6 @@ public class NewRegVendMachine {
         } while (x!=1);
     }
 
-    /*
-    public void stockItem(int index, int stock) {
-        for(int i=0 ; i < stock ; i++) {
-            this.itemTypes.get(index).pushItem();
-        }
-    }
-    */
-
     private void restockItem() {
         Scanner input = new Scanner(System.in);
         int index = 0;
@@ -191,13 +182,6 @@ public class NewRegVendMachine {
             this.itemTypes.get((index-1)).pushItem();
         }
     }
-
-    /*
-    public void addNewItemStack(Item item) {
-        if (this.itemTypes.size()<MAX_ITEMTYPES) this.itemTypes.add(new ItemStack(item));
-        else System.out.printf("ALL SLOTS BEING USED");
-    }
-    */
 
     private void addNewItemStack() {
         Scanner input = new Scanner(System.in);
