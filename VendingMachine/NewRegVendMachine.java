@@ -52,11 +52,32 @@ public class NewRegVendMachine {
     public static int MAX_ITEMS = 16;
 
     public NewRegVendMachine() {
-        this.itemTypes = new ArrayList<ItemStack>(
-            Arrays.asList(
-                new Item("Egg", 10, 100),
-                new Item("Something", 50, 200)
-            ));
+        this.itemTypes = new ArrayList<ItemStack>(16);
+        this.itemTypes.add(new Item( 
+        "Egg", 10, 100
+        ));
+        this.itemTypes.add(new Item(
+        "Beef",150,500
+        ));
+        this.itemTypes.add(new Item(
+        "Carrot",20,25
+        ));
+        this.itemTypes.add(new Item(
+        "Rice",50,130
+        ));
+        this.itemTypes.add(new Item(
+        "Peas",75,80
+        ));
+        this.itemTypes.add(new Item(
+        "Spring Onions",30,25
+        ));
+        this.itemTypes.add(new Item(
+        "Sweet sauce",15,5
+        ));
+        this.itemTypes.add(new Item(
+        "Spicy sauce",15,10
+        ));
+>>>>>>> 5020876ef1167d9e5e4cabd31394ea37408ff408
     }
 
     //Testing Features
@@ -368,4 +389,3 @@ public class NewRegVendMachine {
         System.out.printf("\n");
     }
 }
-
