@@ -52,10 +52,11 @@ public class NewRegVendMachine {
     public static int MAX_ITEMS = 16;
 
     public NewRegVendMachine() {
-        this.itemTypes = new ArrayList<ItemStack>(16);
-        this.itemTypes.add(new Item( 
-        "Egg", 10, 100
-        ));
+        this.itemTypes = new ArrayList<ItemStack>(
+            Arrays.asList(
+                new Item("Egg", 10, 100),
+                new Item("Something", 50, 200)
+            ));
     }
 
     //Testing Features
