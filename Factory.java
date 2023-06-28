@@ -8,10 +8,9 @@ import java.util.InputMismatchException;
  */
 public class Factory {
     private NewRegVendMachine vm;
-
-    public Factory() {this.vm = new NewRegVendMachine();}
-
+    
     //VM creation
+    /*
     public void inputItem(NewRegVendMachine vm, int itemNum) {
         Scanner input = new Scanner(System.in);
         for (int i = 0 ; i<itemNum ; i++) {
@@ -73,29 +72,10 @@ public class Factory {
             vm.stockItem(i, stock);
         }
     }
+    */
 
     public void createVM() {
-        int x = -1;
-        Scanner input = new Scanner(System.in);
-
-        NewRegVendMachine newVM = new NewRegVendMachine();
-
-        do {
-            try {
-                System.out.printf("\nHow many items will this vending machine have? (Max 16)\nINPUT: ");
-                x = input.nextInt();       
-            }
-            catch (InputMismatchException e) {
-                System.out.printf("\nINVALID INPUT\n");
-                input.nextLine();
-            }
-        } while ( x<1 || x>this.vm.MAX_ITEMTYPES );
-
-        input.nextLine();
-
-        inputItem(newVM, x);
-
-        this.vm = newVM;
+        this.newVM = new NewRegVendMachine();
     }
 
     //VM testing
