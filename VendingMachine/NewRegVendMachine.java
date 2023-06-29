@@ -10,6 +10,8 @@ import java.util.Scanner;
  * A class representing a vending machine.
  */
 public class NewRegVendMachine {
+    private CashRegister cashHandler;
+    private ArrayList<ItemStack> itemTypes;
 
     private class ItemStack {
         private ArrayList<Item> items;
@@ -30,7 +32,7 @@ public class NewRegVendMachine {
         }
 
         public void pushItem() {
-            this.items.add((new Item(this.itemType)));
+            this.items.add(new Item(this.itemType));
         }
 
         public String getItemName() {
@@ -46,16 +48,15 @@ public class NewRegVendMachine {
         }
     }
 
-    private CashRegister cashHandler;
+    private CashRegister cashHandler = new CashRegister();
 
     ArrayList<ItemStack> itemTypes;
     public static int MAX_ITEMTYPES = 16;
     public static int MAX_ITEMS = 16;
 
     public NewRegVendMachine() {
-        this.itemTypes = new ArrayList<ItemStack>();
-        this.cashHandler = new CashRegister(0,0,0,0,0,0,0,0,0,0,0);
-        this.itemTypes.add(new ItemStack(new Item( 
+        this.itemTypes = new ArrayList<ItemStack>(8);
+        this.itemTypes.add(new Item( 
         "Egg", 10, 100
         )));
         this.itemTypes.add(new ItemStack(new Item(
@@ -78,7 +79,7 @@ public class NewRegVendMachine {
         )));
         this.itemTypes.add(new ItemStack(new Item(
         "Spicy sauce",15,10
-        )));
+        ));
     }
 
     //Testing Features
@@ -122,7 +123,7 @@ public class NewRegVendMachine {
         int x = -1;
         do {
             System.out.printf("\nVENDING MACHINE MAINTENANCE MENU\n");
-            System.out.printf("1. Back\n2. Display Items\n3. Restock Items\n4. Add New Item\n5. Remove Item\n6. Set Item Price\n7. Restock Money");
+            System.out.printf("1. Back\n2. Display Items\n3. Restock Items\n4. Set Item Price\n5. Restock Money");
             try {
                 System.out.printf("\nINPUT: ");
                 x = input.nextInt();       
@@ -141,15 +142,10 @@ public class NewRegVendMachine {
                     this.restockItem();
                     break;
                 case 4:
-                    if (this.itemTypes.size()<this.MAX_ITEMTYPES) this.addNewItemStack();
-                    else System.out.printf("MAX ITEMS REACHED");
+                    this.setItemPrice();
                     break;
                 case 5:
-                    if (this.itemTypes.size()>0) this.removeItemStack();
-                    else System.out.printf("VENDING MACHINE EMPTY");
-                    break;
-                case 6:
-                    this.setItemPrice();
+                    this.restockMoney();
                     break;
                 default:
                     System.out.printf("\nINVALID INPUT\n");
@@ -190,8 +186,8 @@ public class NewRegVendMachine {
                 System.out.printf("\nINVALID INPUT\n");
                 input.nextLine();
             }
-            if (stock<0||stock>MAX_ITEMS-(this.itemTypes.get(index-1).items.size())) System.out.printf("\nINVALID INPUT\n");
-        } while (stock<0||stock>MAX_ITEMS-(this.itemTypes.get(index-1).items.size()));
+            if (stock<0||stock>MAX_ITEMS-(this.itemTypes.get(index-1).getNumItems())) System.out.printf("\nINVALID INPUT\n");
+        } while (stock<0||stock>MAX_ITEMS-(this.itemTypes.get(index-1).getNumItems()));
 
         for (int i=0 ; i<stock ; i++) {
             this.itemTypes.get((index-1)).pushItem();
@@ -313,7 +309,7 @@ public class NewRegVendMachine {
             input.nextLine();
         }
 
-        this.itemTypes.get(x-1).itemType.setPrice(price);
+        this.itemTypes.get(x-1).setItemPrice(price);
     }
 
     private void restockMoney() {
@@ -348,7 +344,7 @@ public class NewRegVendMachine {
         ArrayList<Integer> items = new ArrayList<Integer>();
         for(int i=0 ; i < this.itemTypes.size() ; i++) {
             ItemStack tempItem = this.itemTypes.get(i);
-            items.add(tempItem.items.size());
+            items.add(tempItem.getNumItems());
         }
         return items;
     }
