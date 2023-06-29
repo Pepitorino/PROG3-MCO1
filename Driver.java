@@ -12,7 +12,7 @@ public class Driver {
         int i = -1;
         do {
             System.out.printf("WELCOME\n");
-            System.out.printf("Menu:\n1. Exit\n2. Create Vending Machine\n3. Test Vending Machine\nINPUT: ");
+            System.out.printf("Menu:\n1. Exit\n2. Create New Regular Vending Machine\n3. Test Vending Machine\nINPUT: ");
             try {
                 i = input.nextInt();
             }

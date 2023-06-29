@@ -1,6 +1,7 @@
 package VendingMachine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -29,7 +30,7 @@ public class NewRegVendMachine {
         }
 
         public void pushItem() {
-            this.items.add(new Item(this.itemType));
+            this.items.add((new Item(this.itemType)));
         }
 
         public String getItemName() {
@@ -45,38 +46,39 @@ public class NewRegVendMachine {
         }
     }
 
-    private CashRegister cashHandler = new CashRegister();
+    private CashRegister cashHandler;
 
     ArrayList<ItemStack> itemTypes;
     public static int MAX_ITEMTYPES = 16;
     public static int MAX_ITEMS = 16;
 
     public NewRegVendMachine() {
-        this.itemTypes = new ArrayList<ItemStack>(8);
-        this.itemTypes.add(new Item( 
+        this.itemTypes = new ArrayList<ItemStack>();
+        this.cashHandler = new CashRegister(0,0,0,0,0,0,0,0,0,0,0);
+        this.itemTypes.add(new ItemStack(new Item( 
         "Egg", 10, 100
-        ));
-        this.itemTypes.add(new Item(
+        )));
+        this.itemTypes.add(new ItemStack(new Item(
         "Beef",150,500
-        ));
-        this.itemTypes.add(new Item(
+        )));
+        this.itemTypes.add(new ItemStack(new Item(
         "Carrot",20,25
-        ));
-        this.itemTypes.add(new Item(
+        )));
+        this.itemTypes.add(new ItemStack(new Item(
         "Rice",50,130
-        ));
-        this.itemTypes.add(new Item(
+        )));
+        this.itemTypes.add(new ItemStack(new Item(
         "Peas",75,80
-        ));
-        this.itemTypes.add(new Item(
+        )));
+        this.itemTypes.add(new ItemStack(new Item(
         "Spring Onions",30,25
-        ));
-        this.itemTypes.add(new Item(
+        )));
+        this.itemTypes.add(new ItemStack(new Item(
         "Sweet sauce",15,5
-        ));
-        this.itemTypes.add(new Item(
+        )));
+        this.itemTypes.add(new ItemStack(new Item(
         "Spicy sauce",15,10
-        ));
+        )));
     }
 
     //Testing Features
@@ -85,7 +87,7 @@ public class NewRegVendMachine {
         int x = -1;
         do {
             System.out.printf("\nVENDING MACHINE MENU\n");
-            System.out.printf("1. Back\n2. Display Items\n3. ");
+            System.out.printf("1. Back\n2. Display Items\n3. Buy Item");
             try {
                 System.out.printf("\nINPUT: ");
                 x = input.nextInt();       
@@ -100,11 +102,18 @@ public class NewRegVendMachine {
                 case 2:
                     this.displayItems();
                     break;
+                case 3:
+                    this.buyItem();
+                    break;
                 default:
                     System.out.printf("\nINVALID INPUT\n");
             }
         } while (x!=1);
 
+    }
+
+    private void buyItem() {
+        
     }
 
     //Maintenance Features
@@ -148,6 +157,12 @@ public class NewRegVendMachine {
         } while (x!=1);
     }
 
+    private void stockItem(int index, int stock) {
+        for(int i=0 ; i < stock ; i++) {
+            this.itemTypes.get(index).pushItem();
+        }
+    }
+
     private void restockItem() {
         Scanner input = new Scanner(System.in);
         int index = 0;
@@ -181,6 +196,11 @@ public class NewRegVendMachine {
         for (int i=0 ; i<stock ; i++) {
             this.itemTypes.get((index-1)).pushItem();
         }
+    }
+
+    private void addNewItemStack(Item item) {
+        if (this.itemTypes.size()<MAX_ITEMTYPES) this.itemTypes.add(new ItemStack(item));
+        else System.out.printf("ALL SLOTS BEING USED");
     }
 
     private void addNewItemStack() {

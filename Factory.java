@@ -11,7 +11,7 @@ public class Factory {
 
     //VM creation
     public void createVM() {
-        this.newVM = new NewRegVendMachine();
+        this.vm = new NewRegVendMachine();
     }
 
     //VM testing
