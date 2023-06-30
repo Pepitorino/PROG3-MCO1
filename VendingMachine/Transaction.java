@@ -9,9 +9,13 @@ public class Transaction {
     private double cashReceived;
     private double changeGiven;
 
+    //Constructor to initialize a transaction object
     public Transaction(double cashReceived, double changeGiven) {this.cashReceived = cashReceived; this.changeGiven = changeGiven;}
 
+    //Getters
+    //Getter for cashReceived
     public double getCashReceived() {return this.cashReceived;}
+    //Getter for changeGiven
     public double getChangeGiven() {return this.changeGiven;}
     
 }
