@@ -3,6 +3,9 @@ package VendingMachine;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class representing a cash register
+ */
 public class CashRegister{
 
     private double price;
@@ -68,105 +71,61 @@ public class CashRegister{
 
         if(price>0 && value>0 && value>=price) {
             this.change = value - price;
+            int tempChange = this.change;
 
             //calculate the change using the available denominations
-            while(this.change>=1000) {
-                if(thousands==0) {
-                    break;
-                }
-                else{
-                    this.change = this.change - 1000;
-                    this.thousands--;
-                    thousand++;
-                }
+            while(this.change>=1000&&this.thousands>0) {
+                this.change = this.change - 1000;
+                this.thousands--;
+                thousand++;
             }
 
-            while(this.change>=500) {
-                if(fiveHundreds==0) {
-                    break;
-                }
-                else{
-                    this.change = this.change - 500;
-                    this.fiveHundreds--;
-                    fiveH++;
-                }
+            while(this.change>=500&&this.fiveHundreds>0) {
+                this.change = this.change - 500;
+                this.fiveHundreds--;
+                fiveH++;
             }
 
-            while(this.change>=200) {
-                if(twoHundreds==0) {
-                    break;
-                }
-                else{
-                    this.change = this.change - 200;
-                    this.twoHundreds--;
-                    twoH++;
-                }
+            while(this.change>=200&&this.twoHundreds>0) {
+                this.change = this.change - 200;
+                this.twoHundreds--;
+                twoH++;
             }
 
-            while(this.change>=100) {
-                if(hundreds==0) {
-                    break;
-                }
-                else{
-                    this.change = this.change - 100;
-                    this.hundreds--;
-                    hundred++;
-                }
+            while(this.change>=100&&this.hundreds>0) {
+                this.change = this.change - 100;
+                this.hundreds--;
+                hundred++;
             }
 
-            while(this.change>=50) {
-                if(fifties==0) {
-                    break;
-                }
-                else{
+            while(this.change>=50&&this.fifties>0) {
                     this.change = this.change - 50;
                     this.fifties--;
                     fifty++;
-                }
             }
 
-            while(this.change>=20) {
-                if(twenties==0) {
-                    break;
-                }
-                else{
-                    this.change = this.change - 20;
-                    this.twenties--;
-                    twenty++;
-                }
+            while(this.change>=20&&this.twenties>0) {
+                this.change = this.change - 20;
+                this.twenties--;
+                twenty++;
             }
 
-            while(this.change>=10) {
-                if(tens==0) {
-                    break;
-                }
-                else{
-                    this.change = this.change - 10;
-                    this.tens--;
-                    ten++;
-                }
+            while(this.change>=10&&this.tens>0) {
+                this.change = this.change - 10;
+                this.tens--;
+                ten++;
             }
 
-            while(this.change>=5) {
-                if(fives==0){
-                    break;
-                }
-                else{
-                    this.change = this.change - 5;
-                    this.fives--;
-                    five++;
-                }
+            while(this.change>=5&&this.fives>0) {
+                this.change = this.change - 5;
+                this.fives--;
+                five++;
             }
 
-            while(this.change>=1) {
-                if(ones==0) {
-                    break;
-                }
-                else{
-                    this.change = this.change - 1;
-                    this.ones--;
-                    one++;
-                }
+            while(this.change>=1&&this.ones>0) {
+                this.change = this.change - 1;
+                this.ones--;
+                one++;
             }
 
             //Add calculated values to changes list
@@ -183,6 +142,8 @@ public class CashRegister{
             //If there is still remaining change, add -1 to indicate insufficient denominations
             if(this.change != 0)
                 changes.add(-1);
+
+            this.change=tempChange;
         }
 
         return changes;
