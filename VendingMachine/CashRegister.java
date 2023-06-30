@@ -192,5 +192,4 @@ public class CashRegister{
     }
 
     public double getChange() {return this.change;}
-    public double 
 }
