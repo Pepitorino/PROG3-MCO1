@@ -13,15 +13,18 @@ public class NewRegVendMachine {
     private CashRegister cashHandler; //CashRegister object to handle cash transactions
     private ArrayList<ItemStack> itemTypes; //List of available items in the vending machine
     private ArrayList<ItemStack> lastItemStock; //Keeps track of the previous item stock for undo functionality
-    public static int MAX_ITEMTYPES = 16; //Maximum number of different item types the vending machine can hold
-    public static int MAX_ITEMS = 16; //Maximum number of items of a specific type the vending machine can hold
+    private static int MAX_ITEMTYPES = 16; //Maximum number of different item types the vending machine can hold
+    private static int MAX_ITEMS = 16; //Maximum number of items of a specific type the vending machine can hold
     private ArrayList<Transaction> transactions; //List to keep track of the transaction made
 
     //Constructor for NewRegVendMachine class
     public NewRegVendMachine() {
         //Initialize the cashHandler as an empty CashRegister object
-        CashRegister cashHandler = new CashRegister(0,0,0,0,0,0,0,0,0,0,0);
-        this.itemTypes = new ArrayList<ItemStack>(8); //Initialize the itemTypes list with a capacity of 8 item
+        this.cashHandler = new CashRegister(0,0,0,0,0,0,0,0,0,0,0);
+        //Initialize the list of transactions
+        this.transactions = new ArrayList<Transaction>();
+        //Initialize the itemTypes list with a capacity of 8 item
+        this.itemTypes = new ArrayList<ItemStack>(8);
         //Add default item to the vending machine
         this.itemTypes.add(new ItemStack(new Item( 
         "Egg", 10, 100
@@ -115,7 +118,7 @@ public class NewRegVendMachine {
         System.out.printf("\nINSERT BILLS\n");
         do {
             //Display the options for bills/coins and prompt for user input
-            System.out.printf("1. Cancel\n2. Ones\n3. Fives\n4.Tens\n5. Twenties\n6. Fifties\n7. One Hundreds\n8. Two Hundreds\n9. Five Hundred\n9. One Thousands\nINPUT: ");
+            System.out.printf("1. Cancel\n2. Ones\n3. Fives\n4.Tens\n5. Twenties\n6. Fifties\n7. One Hundreds\n8. Two Hundreds\n9. Five Hundred\n10. One Thousands\nINPUT: ");
             try {
                 choice = input.nextInt();
             }
@@ -128,30 +131,32 @@ public class NewRegVendMachine {
                 monies[choice-2]++; //Increment the count of the selected bill/coin
                 switch (choice) {
                     case 1:
-                        sum+=1;
                         break;
                     case 2:
-                        sum+=5;
+                        sum+=1;
                         break;
                     case 3:
-                        sum+=10;
+                        sum+=5;
                         break;
                     case 4:
-                        sum+=20;
+                        sum+=10;
                         break;
                     case 5:
-                        sum+=50;
+                        sum+=20;
                         break;
                     case 6:
-                        sum+=100;
+                        sum+=50;
                         break;
                     case 7:
-                        sum+=200;
+                        sum+=100;
                         break;
                     case 8:
-                        sum+=500;
+                        sum+=200;
                         break;
                     case 9:
+                        sum+=500;
+                        break;
+                    case 10:
                         sum+=1000;
                         break;
                     default:
@@ -186,9 +191,11 @@ public class NewRegVendMachine {
 
         System.out.printf("\nDISPENSING ITEM\n");     
 
-        this.transactions.add(new Transaction(this.cashHandler.getChange(), price)); // Add the transaction to the list
+        Item itemBought = this.itemTypes.get(index-1).popItem();
 
-        return this.itemTypes.get(index-1).popItem(); // Return the purchased item
+        this.transactions.add(new Transaction(this.cashHandler.getChange(), price, itemBought)); // Add the transaction to the list
+
+        return itemBought; // Return the purchased item
     }
 
     //Maintenance Features
@@ -198,7 +205,7 @@ public class NewRegVendMachine {
         do {
             //Display maintenance options
             System.out.printf("\nVENDING MACHINE MAINTENANCE MENU\n");
-            System.out.printf("1. Back\n2. Display Items\n3. Restock Items\n4. Set Item Price\n5. Restock Money\n6. Add New Item\n7. Remove Item");
+            System.out.printf("1. Back\n2. Display Items\n3. Restock Items\n4. Set Item Price\n5. Restock Money\n6. Add New Item\n7. Remove Item\n8. Review Transactions");
             try {
                 System.out.printf("\nINPUT: ");
                 x = input.nextInt();       
@@ -227,6 +234,9 @@ public class NewRegVendMachine {
                     break;
                 case 7:
                     this.removeItemStack();
+                    break;
+                case 8:
+                    this.reviewTransactions();
                     break;
                 default:
                     System.out.printf("\nINVALID INPUT\n");
@@ -393,6 +403,7 @@ public class NewRegVendMachine {
         this.itemTypes.remove(x-1);
     }
 
+    //Sets an item's price
     private void setItemPrice() {
         Scanner input = new Scanner(System.in);
         int x = 0;
@@ -428,6 +439,7 @@ public class NewRegVendMachine {
         this.itemTypes.get(x-1).setItemPrice(price);
     }
 
+    //Restocks money
     private void restockMoney() {
         Scanner input = new Scanner(System.in);
         ArrayList<Integer> restock = new ArrayList<Integer>();
@@ -446,6 +458,14 @@ public class NewRegVendMachine {
 
         // Restock the internal cash handler with the specified quantities of each denomination
         this.cashHandler.stockInternal(restock);
+    }
+
+    private void reviewTransactions() {
+        if (this.transactions.size()==0) System.out.printf("NO TRANSACTIONS SINCE LAST RESTOCKING");
+        for (int i=0 ; i<this.transactions.size() ; i++) {
+            Transaction transaction = this.transactions.get(i);
+            System.out.printf("%s--%d--%d", transaction.getItemBought(), transaction.getCashReceived(), transaction.getChangeGiven());
+        }
     }
 
     //Getters
