@@ -12,51 +12,15 @@ import java.util.Scanner;
 public class NewRegVendMachine {
     private CashRegister cashHandler;
     private ArrayList<ItemStack> itemTypes;
-
-    private class ItemStack {
-        private ArrayList<Item> items;
-        private Item itemType;
-
-        public ItemStack(Item item) {
-            this.items = new ArrayList<Item>();
-            this.itemType = item;
-        }
-
-        public int getNumItems() {
-            return this.items.size(); 
-        }
-
-        public Item popItem() {
-            this.items.remove(itemType);
-            return itemType;
-        }
-
-        public void pushItem() {
-            this.items.add(new Item(this.itemType));
-        }
-
-        public String getItemName() {
-            return this.itemType.getName();
-        }
-
-        public double getItemPrice() {
-            return this.itemType.getPrice();
-        }
-
-        public double getItemCalories() {
-            return this.itemType.getCalories();
-        }
-    }
-
-    private CashRegister cashHandler = new CashRegister();
-
-    ArrayList<ItemStack> itemTypes;
+    private ArrayList<ItemStack> lastItemStock;
     public static int MAX_ITEMTYPES = 16;
     public static int MAX_ITEMS = 16;
+    private ArrayList<Transaction> transactions;
 
     public NewRegVendMachine() {
+        CashRegister cashHandler = new CashRegister(0,0,0,0,0,0,0,0,0,0,0);
         this.itemTypes = new ArrayList<ItemStack>(8);
-        this.itemTypes.add(new Item( 
+        this.itemTypes.add(new ItemStack(new Item( 
         "Egg", 10, 100
         )));
         this.itemTypes.add(new ItemStack(new Item(
@@ -79,7 +43,8 @@ public class NewRegVendMachine {
         )));
         this.itemTypes.add(new ItemStack(new Item(
         "Spicy sauce",15,10
-        ));
+        )));
+        System.out.printf("\nBasic Items Set!\n");
     }
 
     //Testing Features
@@ -104,7 +69,8 @@ public class NewRegVendMachine {
                     this.displayItems();
                     break;
                 case 3:
-                    this.buyItem();
+                    if (this.itemsInStock()) this.buyItem();
+                    else System.out.printf("\nNO ITEMS IN STOCK\n");
                     break;
                 default:
                     System.out.printf("\nINVALID INPUT\n");
@@ -113,8 +79,111 @@ public class NewRegVendMachine {
 
     }
 
-    private void buyItem() {
-        
+    private Item buyItem() {
+        Scanner input = new Scanner(System.in);
+        int index=0;
+
+        this.displayItems();
+
+        do {
+            try {
+                System.out.printf("\nEnter item you would like to buy (0 to exit): ");
+                index = input.nextInt();
+            }
+            catch(InputMismatchException e) {
+                System.out.println("\nINVALID INPUT\n");
+                input.nextLine();
+            }
+            if (index==0) return null;
+            else if (index < 0 || index > this.itemTypes.size()) System.out.printf("\nINVALID INPUT\n");
+            else if (this.itemTypes.get(index-1).getNumItems()==0) {
+                System.out.printf("\nOUT OF STOCK\n");
+                index=-1;
+            }
+        } while (index < 1 || index > this.itemTypes.size());
+
+        double price = this.itemTypes.get(index-1).getItemPrice();
+
+        int[] monies = {0,0,0,0,0,0,0,0,0,0};
+
+        int choice=0;
+        double sum=0;
+
+        System.out.printf("\nINSERT BILLS\n");
+        do {
+            System.out.printf("1. Cancel\n2. Ones\n3. Fives\n4.Tens\n5. Twenties\n6. Fifties\n7. One Hundreds\n8. Two Hundreds\n9. Five Hundred\n9. One Thousands\nINPUT: ");
+            try {
+                choice = input.nextInt();
+            }
+            catch(InputMismatchException e) {
+                System.out.println("\nINVALID INPUT\n");
+                input.nextLine();
+            }
+            if (choice < 1 || choice > monies.length) System.out.printf("\nINVALID INPUT\n");
+            else {
+                monies[choice-2]++;
+                switch (choice) {
+                    case 1:
+                        sum+=1;
+                        break;
+                    case 2:
+                        sum+=5;
+                        break;
+                    case 3:
+                        sum+=10;
+                        break;
+                    case 4:
+                        sum+=20;
+                        break;
+                    case 5:
+                        sum+=50;
+                        break;
+                    case 6:
+                        sum+=100;
+                        break;
+                    case 7:
+                        sum+=200;
+                        break;
+                    case 8:
+                        sum+=500;
+                        break;
+                    case 9:
+                        sum+=1000;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        } while (choice != 1 && sum < price);
+
+        if (choice==1) {
+            System.out.printf("\nRETURNING INSERTED BILLS\n");
+            return null;
+        }
+
+        ArrayList<Integer> change = this.cashHandler.calculateChange(price, sum);
+
+        if (change.get(change.size()-1)<0) {
+            System.out.printf("\nSORRY NOT ENOUGH CHANGE");
+            System.out.printf("\nRETURNING INSERTED BILLS\n");
+            System.out.printf("\nCANCELLING TRANSACTION...");
+            return null;
+        }
+
+        System.out.printf("\nDISPENSING CHANGE\n");
+
+        ArrayList<Integer> newBills = new ArrayList<Integer>();
+
+        for (int i = 0; i < monies.length; i++)
+            newBills.add(monies[i]);
+
+        this.cashHandler.stockInternal(newBills); 
+
+        System.out.printf("\nDISPENSING ITEM\n");     
+
+        this.transactions.add(new Transaction(this.cashHandler.getChange(), price));
+
+        return this.itemTypes.get(index-1).popItem();
     }
 
     //Maintenance Features
@@ -123,7 +192,7 @@ public class NewRegVendMachine {
         int x = -1;
         do {
             System.out.printf("\nVENDING MACHINE MAINTENANCE MENU\n");
-            System.out.printf("1. Back\n2. Display Items\n3. Restock Items\n4. Set Item Price\n5. Restock Money");
+            System.out.printf("1. Back\n2. Display Items\n3. Restock Items\n4. Set Item Price\n5. Restock Money\n6. Add New Item\n7. Remove Item");
             try {
                 System.out.printf("\nINPUT: ");
                 x = input.nextInt();       
@@ -147,6 +216,12 @@ public class NewRegVendMachine {
                 case 5:
                     this.restockMoney();
                     break;
+                case 6:
+                    this.addNewItemStack();
+                    break;
+                case 7:
+                    this.removeItemStack();
+                    break;
                 default:
                     System.out.printf("\nINVALID INPUT\n");
             }
@@ -157,6 +232,8 @@ public class NewRegVendMachine {
         for(int i=0 ; i < stock ; i++) {
             this.itemTypes.get(index).pushItem();
         }
+        this.lastItemStock = this.itemTypes;
+        this.transactions.clear();
     }
 
     private void restockItem() {
@@ -192,6 +269,9 @@ public class NewRegVendMachine {
         for (int i=0 ; i<stock ; i++) {
             this.itemTypes.get((index-1)).pushItem();
         }
+
+        this.lastItemStock = this.itemTypes;
+        this.transactions.clear();
     }
 
     private void addNewItemStack(Item item) {
@@ -327,7 +407,7 @@ public class NewRegVendMachine {
             restock.add(quantity);
         }
         
-        cashHandler.stockInternal(restock);
+        this.cashHandler.stockInternal(restock);
     }
 
     //Getters
@@ -368,7 +448,7 @@ public class NewRegVendMachine {
     }
 
     //Helper functions
-    public boolean checkIfItemExists(String string) {
+    private boolean checkIfItemExists(String string) {
         for (int i=0 ; i < this.itemTypes.size() ; i++) {
             ItemStack tempItem = this.itemTypes.get(i);
             if (string.equals(tempItem.getItemName())) return true;
@@ -376,7 +456,7 @@ public class NewRegVendMachine {
         return false;
     }
 
-    public void displayItems() {
+    private void displayItems() {
         ArrayList<String> itemNames = this.getItemNames();
         ArrayList<Integer> itemStock = this.getItemStock();
         ArrayList<Double> itemCalories = this.getItemCalories();
@@ -387,5 +467,15 @@ public class NewRegVendMachine {
             System.out.printf("\n%d. %s--%d--%.2f--%.2f", i+1, itemNames.get(i), itemStock.get(i), itemCalories.get(i), itemPrice.get(i));
         }
         System.out.printf("\n");
+    }
+
+    private boolean itemsInStock() {
+        int i=0;
+        int itemsNotInStock=0;
+        for (i=0 ; i<this.itemTypes.size() ; i++) {
+            if (this.itemTypes.get(i).getNumItems()==0) itemsNotInStock++;
+        }
+        if (itemsNotInStock==this.itemTypes.size()) return false;
+        return true;
     }
 }

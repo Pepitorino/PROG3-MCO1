@@ -11,7 +11,7 @@ public class Driver {
 
         int i = -1;
         do {
-            System.out.printf("WELCOME\n");
+            System.out.printf("\nWELCOME\n");
             System.out.printf("Menu:\n1. Exit\n2. Create New Regular Vending Machine\n3. Test Vending Machine\nINPUT: ");
             try {
                 i = input.nextInt();
@@ -28,7 +28,7 @@ public class Driver {
                 case 2:
                     factory.createVM();
                     vmExists = true;
-                    System.out.printf("\nVENDING MACHINE SUCCESSFULLY CREATED");
+                    System.out.printf("\nVENDING MACHINE SUCCESSFULLY CREATED\n");
                     break;
                 case 3:
                     if (vmExists) factory.testVM();
