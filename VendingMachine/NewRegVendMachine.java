@@ -10,15 +10,16 @@ import java.util.Scanner;
  * A class representing a vending machine.
  */
 public class NewRegVendMachine {
-    private CashRegister cashHandler;
     private ArrayList<ItemStack> itemTypes;
     private ArrayList<ItemStack> lastItemStock;
-    public static int MAX_ITEMTYPES = 16;
-    public static int MAX_ITEMS = 16;
     private ArrayList<Transaction> transactions;
+    private CashRegister cashHandler;
+    private static int MAX_ITEMTYPES = 16;
+    private static int MAX_ITEMS = 16;
 
     public NewRegVendMachine() {
-        CashRegister cashHandler = new CashRegister(0,0,0,0,0,0,0,0,0,0,0);
+        this.cashHandler = new CashRegister(0,0,0,0,0,0,0,0,0,0,0);
+        this.transactions = new ArrayList<Transaction>();
         this.itemTypes = new ArrayList<ItemStack>(8);
         this.itemTypes.add(new ItemStack(new Item( 
         "Egg", 10, 100
@@ -163,11 +164,11 @@ public class NewRegVendMachine {
 
         ArrayList<Integer> change = this.cashHandler.calculateChange(price, sum);
 
-        if (change.get(change.size()-1)<0) {
+        if (change.get(change.size()-1)==-1) {
             System.out.printf("\nSORRY NOT ENOUGH CHANGE");
             System.out.printf("\nRETURNING INSERTED BILLS\n");
-            System.out.printf("\nCANCELLING TRANSACTION...");
-            return null;
+             System.out.printf("\nCANCELLING TRANSACTION...\n");
+             return null;
         }
 
         System.out.printf("\nDISPENSING CHANGE\n");
