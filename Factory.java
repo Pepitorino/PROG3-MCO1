@@ -29,18 +29,19 @@ public class Factory {
                 System.out.printf("\nINVALID INPUT\n");
                 input.nextLine();
             }
+            //Perform action based on user's input
             switch (x) {
                 case 1: 
                     break;
                 case 2:
-                    this.vm.featuresVending();
+                    this.vm.featuresVending(); //Call featuresVending() method of NewRegVendMachine
                     break;
                 case 3:
-                    this.vm.featuresMaintenance();
+                    this.vm.featuresMaintenance(); //Call featuresMaintenace() method NewRegVendMachine
                     break;
                 default:
                     System.out.printf("\nINVALID INPUT\n");
             }
-        } while (x!=1);
+        } while (x!=1); //loop until user chooses to return
     }
 }
