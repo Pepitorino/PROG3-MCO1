@@ -167,10 +167,11 @@ public class NewRegVendMachine {
 
         ArrayList<Integer> change = this.cashHandler.calculateChange(price, sum); // Calculate the change required
 
-        if (change.get(change.size()-1)<0) {
+
+        if (change.get(change.size()-1)==-1) {
             System.out.printf("\nSORRY NOT ENOUGH CHANGE"); //Unable to provide sufficient change
             System.out.printf("\nRETURNING INSERTED BILLS\n");
-            System.out.printf("\nCANCELLING TRANSACTION...");
+            System.out.printf("\nCANCELLING TRANSACTION...\n");
             return null;
         }
 
