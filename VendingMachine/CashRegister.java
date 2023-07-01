@@ -1,6 +1,7 @@
 package VendingMachine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -71,7 +72,7 @@ public class CashRegister{
 
         if(price>0 && value>0 && value>=price) {
             this.change = value - price;
-            int tempChange = this.change;
+            double tempChange = this.change;
 
             //calculate the change using the available denominations
             while(this.change>=1000&&this.thousands>0) {
@@ -165,4 +166,14 @@ public class CashRegister{
 
     //Getter for change
     public double getChange() {return this.change;}
+
+    public void displayBills() {
+        ArrayList<String> denominations = new ArrayList<String>();
+        List<String> stringsToAdd = Arrays.asList("Ones","Fives","Tens","Twenties","Fifties","One Hundreds","Two Hundreds","Five Hundreds","One Thousands");
+        denominations.addAll(stringsToAdd);
+        for (int i=0 ; i<9 ; i++) {
+            System.out.printf("\n%s - %d", denominations.get(i), this.internalBank.get(i));
+        }
+        System.out.printf("\n");
+    }
 }

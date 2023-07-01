@@ -205,7 +205,7 @@ public class NewRegVendMachine {
         do {
             //Display maintenance options
             System.out.printf("\nVENDING MACHINE MAINTENANCE MENU\n");
-            System.out.printf("1. Back\n2. Display Items\n3. Restock Items\n4. Set Item Price\n5. Restock Money\n6. Add New Item\n7. Remove Item\n8. Review Transactions");
+            System.out.printf("1. Back\n2. Display Items\n3. Display Available Bills\n4. Restock Items\n5. Set Item Price\n6. Restock Money\n7. Add New Item\n8. Remove Item\n9. Review Transactions");
             try {
                 System.out.printf("\nINPUT: ");
                 x = input.nextInt();       
@@ -221,21 +221,24 @@ public class NewRegVendMachine {
                     this.displayItems();
                     break;
                 case 3:
-                    this.restockItem();
+                    this.displayBills();
                     break;
                 case 4:
-                    this.setItemPrice();
+                    this.restockItem();
                     break;
                 case 5:
-                    this.restockMoney();
+                    this.setItemPrice();
                     break;
                 case 6:
-                    this.addNewItemStack();
+                    this.restockMoney();
                     break;
                 case 7:
-                    this.removeItemStack();
+                    this.addNewItemStack();
                     break;
                 case 8:
+                    this.removeItemStack();
+                    break;
+                case 9:
                     this.reviewTransactions();
                     break;
                 default:
@@ -466,6 +469,10 @@ public class NewRegVendMachine {
             Transaction transaction = this.transactions.get(i);
             System.out.printf("%s--%d--%d", transaction.getItemBought(), transaction.getCashReceived(), transaction.getChangeGiven());
         }
+    }
+
+    private void displayBills() {
+        this.cashHandler.displayBills();
     }
 
     //Getters
