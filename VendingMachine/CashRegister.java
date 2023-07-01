@@ -67,65 +67,72 @@ public class CashRegister{
         int five = 0;
         int one = 0;
 
-
         ArrayList<Integer> changes = new ArrayList<>();
-
-        if(price>0 && value>0 && value>=price) {
-            this.change = value - price;
-            double tempChange = this.change;
-
+            
+        this.change = value - price;
+        value = value - price;
+        if(value>0) {
             //calculate the change using the available denominations
-            while(this.change>=1000&&this.thousands>0) {
-                this.change = this.change - 1000;
+            while(value>=1000&&this.thousands>0) {
+                value = value - 1000;
                 this.thousands--;
+                this.internalBank.set(8,this.internalBank.get(8)-1);
                 thousand++;
             }
 
-            while(this.change>=500&&this.fiveHundreds>0) {
-                this.change = this.change - 500;
+            while(value>=500&&this.fiveHundreds>0) {
+                value = value - 500;
                 this.fiveHundreds--;
+                this.internalBank.set(7,this.internalBank.get(7)-1);
                 fiveH++;
             }
 
-            while(this.change>=200&&this.twoHundreds>0) {
-                this.change = this.change - 200;
+            while(value>=200&&this.twoHundreds>0) {
+                value = value - 200;
                 this.twoHundreds--;
+                this.internalBank.set(6,this.internalBank.get(6)-1);
                 twoH++;
             }
 
-            while(this.change>=100&&this.hundreds>0) {
-                this.change = this.change - 100;
+            while(value>=100&&this.hundreds>0) {
+                value = value - 100;
                 this.hundreds--;
+                this.internalBank.set(5,this.internalBank.get(5)-1);
                 hundred++;
             }
 
-            while(this.change>=50&&this.fifties>0) {
-                    this.change = this.change - 50;
-                    this.fifties--;
-                    fifty++;
+            while(value>=50&&this.fifties>0) {
+                value = value - 50;
+                this.fifties--;
+                this.internalBank.set(4,this.internalBank.get(4)-1);
+                fifty++;
             }
 
-            while(this.change>=20&&this.twenties>0) {
-                this.change = this.change - 20;
+            while(value>=20&&this.twenties>0) {
+                value = value - 20;
                 this.twenties--;
+                this.internalBank.set(3,this.internalBank.get(3)-1);
                 twenty++;
             }
 
-            while(this.change>=10&&this.tens>0) {
-                this.change = this.change - 10;
+            while(value>=10&&this.tens>0) {
+                value = value - 10;
                 this.tens--;
+                this.internalBank.set(2,this.internalBank.get(2)-1);
                 ten++;
             }
 
-            while(this.change>=5&&this.fives>0) {
-                this.change = this.change - 5;
+            while(value>=5&&this.fives>0) {
+                value = value - 5;
                 this.fives--;
+                this.internalBank.set(1,this.internalBank.get(1)-1);
                 five++;
             }
 
-            while(this.change>=1&&this.ones>0) {
-                this.change = this.change - 1;
+            while(value>=1&&this.ones>0) {
+                value = value - 1;
                 this.ones--;
+                this.internalBank.set(0,this.internalBank.get(0)-1);
                 one++;
             }
 
@@ -141,10 +148,11 @@ public class CashRegister{
             changes.add(one);
 
             //If there is still remaining change, add -1 to indicate insufficient denominations
-            if(this.change != 0)
+            if(value > 0) {
                 changes.add(-1);
+            }
+                    
 
-            this.change=tempChange;
         }
 
         return changes;
@@ -162,6 +170,16 @@ public class CashRegister{
 
             this.internalBank.set(x,newValue);
         }
+
+        this.thousands = this.internalBank.get(8);
+        this.fiveHundreds = this.internalBank.get(7);
+        this.twoHundreds = this.internalBank.get(6);
+        this.hundreds = this.internalBank.get(5);
+        this.fifties = this.internalBank.get(4);
+        this.twenties = this.internalBank.get(3);
+        this.tens = this.internalBank.get(2);
+        this.fives = this.internalBank.get(1);
+        this.ones = this.internalBank.get(0);
     }
 
     //Getter for change
@@ -177,3 +195,4 @@ public class CashRegister{
         System.out.printf("\n");
     }
 }
+

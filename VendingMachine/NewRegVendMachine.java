@@ -174,6 +174,7 @@ public class NewRegVendMachine {
 
 
         if (change.get(change.size()-1)==-1) {
+            this.cashHandler.stockInternal(change);
             System.out.printf("\nSORRY NOT ENOUGH CHANGE"); //Unable to provide sufficient change
             System.out.printf("\nRETURNING INSERTED BILLS\n");
             System.out.printf("\nCANCELLING TRANSACTION...\n");
@@ -454,9 +455,16 @@ public class NewRegVendMachine {
 
         // Prompt user to enter the quantity of each denomination to restock
         for(int i=0 ; i < 9;i++) {
-            System.out.println("How many " + denominations.get(i) + " To add ");
-            quantity = input.nextInt();
-            restock.add(quantity);
+            try {
+                System.out.println("How many " + denominations.get(i) + " To add ");
+                quantity = input.nextInt();
+                restock.add(quantity);
+            }
+            catch (InputMismatchException e) {
+                System.out.printf("\nINVALID INPUT\n");
+                input.nextLine();
+                i--;
+            }
         }
 
         // Restock the internal cash handler with the specified quantities of each denomination
@@ -464,10 +472,11 @@ public class NewRegVendMachine {
     }
 
     private void reviewTransactions() {
+        System.out.printf("TRANSACTIONS: ITEM--CASH--CHANGE");
         if (this.transactions.size()==0) System.out.printf("NO TRANSACTIONS SINCE LAST RESTOCKING");
         for (int i=0 ; i<this.transactions.size() ; i++) {
             Transaction transaction = this.transactions.get(i);
-            System.out.printf("%s--%d--%d", transaction.getItemBought(), transaction.getCashReceived(), transaction.getChangeGiven());
+            System.out.printf("Transaction#%d: %s--%f--%f", i, transaction.getItemBought(), transaction.getCashReceived(), transaction.getChangeGiven());
         }
     }
 

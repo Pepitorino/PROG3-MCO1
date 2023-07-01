@@ -19,7 +19,7 @@ public class ItemStack {
 
     // Retrieve and remove an item from the stack
     public Item popItem() {
-        this.items.remove(itemType);
+        this.items.remove(this.items.size()-1);
         return itemType;
     }
 
