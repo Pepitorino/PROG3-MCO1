@@ -19,6 +19,10 @@ public class NewRegVendMachine {
     private ArrayList<Transaction> transactions; //List to keep track of the transaction made
 
     //Constructor for NewRegVendMachine class
+
+    /**
+     * Constructor for NewRegVendMachine, initializes all arrays and sets basic items
+     */
     public NewRegVendMachine() {
         //Initialize the cashHandler as an empty CashRegister object
         this.cashHandler = new CashRegister(0,0,0,0,0,0,0,0,0,0,0);
@@ -55,6 +59,10 @@ public class NewRegVendMachine {
     }
 
     //Testing Features
+
+    /**
+     * Interface for interacting with vending features for vending machine
+     */
     public void featuresVending() {
         Scanner input = new Scanner(System.in);
         int x = -1;
@@ -86,6 +94,10 @@ public class NewRegVendMachine {
 
     }
 
+    /**
+     * Lets user buy an item.
+     * @return an Item of the type they buy.
+     */
     private Item buyItem() {
         Scanner input = new Scanner(System.in);
         int index=0;
@@ -200,6 +212,10 @@ public class NewRegVendMachine {
     }
 
     //Maintenance Features
+
+    /**
+     * Interface for interacting with maintenance features for vending machine
+     */
     public void featuresMaintenance() {
         Scanner input = new Scanner(System.in);
         int x = -1;
@@ -248,7 +264,11 @@ public class NewRegVendMachine {
         } while (x!=1);
     }
 
-    //stock item method based on how many items to add and at what index to add them
+    /**
+     * Stocks items based on how many items to add and at what index to add them to.
+     * @param index Stack to add item to
+     * @param stock How many of an item to add
+     */
     private void stockItem(int index, int stock) {
         //loop through 'stock' number of times to add items to the specified index in itemTypes list
         for(int i=0 ; i < stock ; i++) {
@@ -271,7 +291,9 @@ public class NewRegVendMachine {
         this.transactions.clear();
     }
 
-    //restock item method
+    /**
+     * Restocks Item
+     */
     private void restockItem() {
         Scanner input = new Scanner(System.in);
         int index = 0;
@@ -327,14 +349,19 @@ public class NewRegVendMachine {
         this.transactions.clear();
     }
 
-    // Add item to itemStack instance
+    /**
+     * Creates a new ItemStack to add to itemTypes
+     * @param item type of item of which the new stack will be
+     */
     private void addNewItemStack(Item item) {
         // Check if there is space to add a new item stack
         if (this.itemTypes.size()<MAX_ITEMTYPES) this.itemTypes.add(new ItemStack(item)); // Create a new item stack and add it to the itemTypes list
         else System.out.printf("ALL SLOTS BEING USED"); // Display a message indicating that all slots are being used
     }
 
-    //Create new ItemStack
+    /**
+     * Creates a new ItemStack to add to itemTypes
+     */
     private void addNewItemStack() {
         Scanner input = new Scanner(System.in);
         String tempName = "\n";
@@ -401,7 +428,9 @@ public class NewRegVendMachine {
         this.stockItem(this.itemTypes.size()-1, stock);
     }
 
-    //Remove an item from an itemStack
+    /**
+     * Removes an ItemStack from itemTypes
+     */
     private void removeItemStack() {
         Scanner input = new Scanner(System.in);
         int x = 0;
@@ -425,7 +454,9 @@ public class NewRegVendMachine {
         this.itemTypes.remove(x-1);
     }
 
-    //Sets an item's price
+    /**
+     * Sets price of an item
+     */
     private void setItemPrice() {
         Scanner input = new Scanner(System.in);
         int x = 0;
@@ -461,7 +492,9 @@ public class NewRegVendMachine {
         this.itemTypes.get(x-1).setItemPrice(price);
     }
 
-    //Restocks money
+    /**
+     * Restocks money
+     */
     private void restockMoney() {
         Scanner input = new Scanner(System.in);
         ArrayList<Integer> restock = new ArrayList<Integer>();
@@ -489,6 +522,11 @@ public class NewRegVendMachine {
         this.cashHandler.stockInternal(restock);
     }
 
+    /**
+     * Shows all transactions and inventory
+     * Displays inventory from previous stocking and inventory currently
+     * Displays change given and cash received from each transaction
+     */
     private void reviewTransactions() {
         double total=0;
         double totalchange=0;
@@ -515,6 +553,9 @@ public class NewRegVendMachine {
         System.out.printf("\nTOTAL REVENUE: %.2f", total);
     }
 
+    /**
+     * Displays all bills available
+     */
     private void displayBills() {
         this.cashHandler.displayBills();
     }
@@ -564,8 +605,11 @@ public class NewRegVendMachine {
         return items;
     }
 
-    //Helper functions
-    //method to check if a given item exists based on its name
+    /**
+     * Checks if a given item exists based on its name
+     * @param string
+     * @return true if item exists
+     */
     private boolean checkIfItemExists(String string) {
         //loop through itemTypes array to find an item with the given name
         for (int i=0 ; i < this.itemTypes.size() ; i++) {
@@ -576,7 +620,9 @@ public class NewRegVendMachine {
         return false;
     }
 
-    //Display all items
+    /**
+     * Displays all item's stock, calories, and prices
+     */
     private void displayItems() {
         ArrayList<String> itemNames = this.getItemNames();
         ArrayList<Integer> itemStock = this.getItemStock();
@@ -590,7 +636,10 @@ public class NewRegVendMachine {
         System.out.printf("\n");
     }
 
-    //Method to check if item is in stock or not
+    /**
+     * Method to check if items are in stock or not
+     * @return true if any item is in stock
+     */
     private boolean itemsInStock() {
         int i=0;
         int itemsNotInStock=0;

@@ -55,7 +55,12 @@ public class CashRegister{
         this.internalBank.add(thousands);
     }
 
-    //Calculate change to be given based on given price and value
+    /**
+     * Calculates change to be given based on given price and value
+     * @param price - price of item bought
+     * @param value - value given
+     * @return array of bills given as change
+     */
     public ArrayList<Integer> calculateChange(double price, double value){
         int thousand = 0;
         int fiveH = 0;
@@ -162,6 +167,11 @@ public class CashRegister{
     }
 
     //Restock the internal bank with given denominations
+
+    /**
+     * Restock the internal bank with the given denominations
+     * @param restock - array of amount of each bill there is, from 1-1000
+     */
     public void stockInternal(ArrayList<Integer> restock) {
         int oldValue;
         int newValue;
@@ -188,6 +198,9 @@ public class CashRegister{
     //Getter for change
     public double getChange() {return this.change;}
 
+    /**
+     * Displays all available bills
+     */
     public void displayBills() {
         ArrayList<String> denominations = new ArrayList<String>();
         List<String> stringsToAdd = Arrays.asList("Ones","Fives","Tens","Twenties","Fifties","One Hundreds","Two Hundreds","Five Hundreds","One Thousands");

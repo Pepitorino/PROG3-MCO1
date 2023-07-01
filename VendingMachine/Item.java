@@ -1,7 +1,7 @@
 package VendingMachine;
 
 /**
- * Class representing a singular item
+ * A class representing a singular item
  */
 public class Item {
     private String name;
