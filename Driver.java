@@ -2,6 +2,9 @@ import VendingMachine.*;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
+/**
+ * This driver tests the factory and vending machine.
+ */
 public class Driver {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -17,7 +20,6 @@ public class Driver {
                 i = input.nextInt();
             }
             catch (InputMismatchException e) {
-                System.out.printf("\nINVALID ERROR\n");
                 input.nextLine();
             }
 

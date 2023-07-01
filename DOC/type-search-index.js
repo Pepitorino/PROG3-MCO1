@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"VendingMachine","l":"CashRegister"},{"p":"<Unnamed>","l":"Driver"},{"p":"<Unnamed>","l":"Factory"},{"p":"VendingMachine","l":"Item"},{"p":"VendingMachine","l":"ItemStack"},{"p":"VendingMachine","l":"NewRegVendMachine"},{"p":"VendingMachine","l":"Transaction"}];updateSearchResults();

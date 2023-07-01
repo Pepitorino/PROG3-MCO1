@@ -1,12 +1,20 @@
 package VendingMachine;
 
 import java.util.ArrayList;
+import java.lang.Cloneable;
 
-public class ItemStack {
+/**
+ * A class representing a stack of items of the same type.
+ * Used within the vending machine to dispense items.
+ */
+public class ItemStack{
     private ArrayList<Item> items;
     private Item itemType;
 
-    // ItemStack constructor
+    /**
+     * Constructor for ItemStack
+     * @param item - type of Item stack holds
+     */
     public ItemStack(Item item) {
         this.items = new ArrayList<Item>();
         this.itemType = item;
@@ -17,13 +25,18 @@ public class ItemStack {
         return this.items.size();
     }
 
-    // Retrieve and remove an item from the stack
+    /**
+     * Pops an item from the stack
+     * @return an item of whichever type the stack holds
+     */
     public Item popItem() {
         this.items.remove(this.items.size()-1);
         return itemType;
     }
 
-    // Add an item to the stack
+    /**
+     * Pushes a new item onto the stack.
+     */
     public void pushItem() {
         this.items.add(new Item(this.itemType));
     }

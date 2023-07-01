@@ -71,6 +71,9 @@ public class CashRegister{
             
         this.change = value - price;
         value = value - price;
+
+        if (this.change==0) return null;
+
         if(value>0) {
             //calculate the change using the available denominations
             while(value>=1000&&this.thousands>0) {

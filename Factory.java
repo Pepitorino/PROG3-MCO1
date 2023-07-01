@@ -4,17 +4,25 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 
 /**
- * A class representing a factory
+ * A class representing the vending machine factory
  */
 public class Factory {
     private NewRegVendMachine vm;
 
     //VM creation
+
+    /**
+     * Creates a vending machine for the factory
+     */
     public void createVM() {
         this.vm = new NewRegVendMachine();
     }
 
     //VM testing
+
+    /**
+     * Tests current vending machine in factory
+     */
     public void testVM() {
         Scanner input = new Scanner(System.in);
         int x = -1;

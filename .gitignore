@@ -27,3 +27,6 @@ replay_pid*
 Test.java
 *.txt
 *.xml
+out/
+.idea
+*.iml

@@ -1,18 +1,29 @@
 package VendingMachine;
 
+/**
+ * Class representing a singular item
+ */
 public class Item {
     private String name;
     private double price;
     private double calories;
 
-    //Item class constructor
+    /**
+     * Constructor for the Item class
+     * @param name - name of Item
+     * @param price - price of Item
+     * @param calories - amount of calories in Item
+     */
     public Item(String name, double price, double calories) {
         this.name = name;
         this.price = price;
         this.calories = calories;
     }
 
-    //Item class constructor override for item that exists
+    /**
+     * Constructor for the Item class using existing item
+     * @param item - Item to copy
+     */
     public Item(Item item) {
         this.name = item.name;
         this.price = item.price;
@@ -24,19 +35,6 @@ public class Item {
     public String getName() {
         return name;
     }
-    
-    // idt name should be settable?
-    // public setName(String name){
-    //     this.name = name;
-    // }
-    
-    // public int getPosition() {
-    //     return position;
-    // }
-    
-    // public void setPosition(int position){
-    //     this.position = position;
-    // }
 
     //Getter for price
     public double getPrice() {
@@ -52,9 +50,4 @@ public class Item {
     public double getCalories() {
         return calories;
     }
-    
-    // idt calories should be settable either?
-    // public setCalories(double calories){
-    //     this.calories = calories;
-    // }
 }

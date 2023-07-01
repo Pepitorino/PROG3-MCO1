@@ -1,5 +1,6 @@
 package VendingMachine;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 public class NewRegVendMachine {
     private CashRegister cashHandler; //CashRegister object to handle cash transactions
     private ArrayList<ItemStack> itemTypes; //List of available items in the vending machine
-    private ArrayList<ItemStack> lastItemStock; //Keeps track of the previous item stock for undo functionality
+    private ArrayList<ItemStack> lastItemStock; //Keeps track of the previous item stock for transactions
     private static int MAX_ITEMTYPES = 16; //Maximum number of different item types the vending machine can hold
     private static int MAX_ITEMS = 16; //Maximum number of items of a specific type the vending machine can hold
     private ArrayList<Transaction> transactions; //List to keep track of the transaction made
@@ -172,16 +173,15 @@ public class NewRegVendMachine {
 
         ArrayList<Integer> change = this.cashHandler.calculateChange(price, sum); // Calculate the change required
 
-
-        if (change.get(change.size()-1)==-1) {
-            this.cashHandler.stockInternal(change);
-            System.out.printf("\nSORRY NOT ENOUGH CHANGE"); //Unable to provide sufficient change
-            System.out.printf("\nRETURNING INSERTED BILLS\n");
-            System.out.printf("\nCANCELLING TRANSACTION...\n");
-            return null;
-        }
-
-        System.out.printf("\nDISPENSING CHANGE\n");
+        if (change!=null)
+            if (change.get(change.size()-1)==-1) {
+                this.cashHandler.stockInternal(change);
+                System.out.printf("\nSORRY NOT ENOUGH CHANGE"); //Unable to provide sufficient change
+                System.out.printf("\nRETURNING INSERTED BILLS\n");
+                System.out.printf("\nCANCELLING TRANSACTION...\n");
+                return null;
+            }
+        if(change!=null) System.out.printf("\nDISPENSING CHANGE\n");
 
         ArrayList<Integer> newBills = new ArrayList<Integer>();
 
@@ -194,7 +194,7 @@ public class NewRegVendMachine {
 
         Item itemBought = this.itemTypes.get(index-1).popItem();
 
-        this.transactions.add(new Transaction(this.cashHandler.getChange(), price, itemBought)); // Add the transaction to the list
+        this.transactions.add(new Transaction(sum, this.cashHandler.getChange(), itemBought)); // Add the transaction to the list
 
         return itemBought; // Return the purchased item
     }
@@ -256,7 +256,16 @@ public class NewRegVendMachine {
         }
 
         //Update the lastItemStock to reflect the changes in itemTypes list
-        this.lastItemStock = this.itemTypes;
+        this.lastItemStock = new ArrayList<ItemStack>();
+        for (int i = 0 ; i<this.itemTypes.size() ; i++) {
+            ItemStack temp = this.itemTypes.get(i);
+            temp.pushItem();
+            ItemStack temp2 = new ItemStack(temp.popItem());
+            for(int j = 0 ; j<temp.getNumItems() ; j++) {
+                temp2.pushItem();
+            }
+            this.lastItemStock.add(temp2);
+        }
 
         //Clear the transactions list since the stock has changed
         this.transactions.clear();
@@ -303,7 +312,16 @@ public class NewRegVendMachine {
         }
 
         // Update the lastItemStock to reflect the changes in itemTypes list
-        this.lastItemStock = this.itemTypes;
+        this.lastItemStock = new ArrayList<ItemStack>();
+        for (int i = 0 ; i<this.itemTypes.size() ; i++) {
+            ItemStack temp = this.itemTypes.get(i);
+            temp.pushItem();
+            ItemStack temp2 = new ItemStack(temp.popItem());
+            for(int j = 0 ; j<temp.getNumItems() ; j++) {
+                temp2.pushItem();
+            }
+            this.lastItemStock.add(temp2);
+        }
 
         // Clear the transactions list since the stock has changed
         this.transactions.clear();
@@ -472,12 +490,29 @@ public class NewRegVendMachine {
     }
 
     private void reviewTransactions() {
-        System.out.printf("TRANSACTIONS: ITEM--CASH--CHANGE");
-        if (this.transactions.size()==0) System.out.printf("NO TRANSACTIONS SINCE LAST RESTOCKING");
+        double total=0;
+        double totalchange=0;
+        double totalreceived=0;
+        System.out.printf("\nSTARTING INVENTORY: ");
+        System.out.printf("\nNAME--STOCK");
+
+        for(int i=0; i < this.lastItemStock.size() ; i++) {
+            System.out.printf("\n%s--%d", this.lastItemStock.get(i).getItemName(), this.lastItemStock.get(i).getNumItems());
+        }
+
+
+        System.out.printf("\nCURRENT INVENTORY: ");
+        this.displayItems();
+        System.out.printf("\nTRANSACTIONS: ITEM--CASH--CHANGE");
+        if (this.transactions.size()==0) System.out.printf("\nNO TRANSACTIONS SINCE LAST RESTOCKING");
         for (int i=0 ; i<this.transactions.size() ; i++) {
             Transaction transaction = this.transactions.get(i);
-            System.out.printf("Transaction#%d: %s--%f--%f", i, transaction.getItemBought(), transaction.getCashReceived(), transaction.getChangeGiven());
+            System.out.printf("\nTransaction#%d: %s--%.2f--%.2f", i+1, transaction.getItemBought(), transaction.getCashReceived(), transaction.getChangeGiven());
+            totalchange+=transaction.getChangeGiven();
+            totalreceived+=transaction.getCashReceived();
         }
+        total = totalreceived-totalchange;
+        System.out.printf("\nTOTAL REVENUE: %.2f", total);
     }
 
     private void displayBills() {
