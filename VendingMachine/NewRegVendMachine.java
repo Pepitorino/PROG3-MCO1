@@ -479,14 +479,15 @@ public class NewRegVendMachine {
 
         // Prompt user to enter the new price for selected item
         System.out.printf("\nENTER NEW PRICE: ");
-        try {
-            System.out.printf("\nINPUT: ");
-            price = input.nextDouble();       
-        }
-        catch (InputMismatchException e) {
-            System.out.printf("\nINVALID INPUT\n");
-            input.nextLine();
-        }
+        do {
+            try {
+                System.out.printf("\nINPUT: ");
+                price = input.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.printf("\nINVALID INPUT\n");
+                input.nextLine();
+            }
+        } while (price<0);
 
         // Update the price of the selected item
         this.itemTypes.get(x-1).setItemPrice(price);
